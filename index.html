@@ -11,6 +11,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <!-- html2pdf.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <!-- Lite YouTube Embed -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lite-youtube-embed@0.3.2/src/lite-yt-embed.css" />
+    <script src="https://cdn.jsdelivr.net/npm/lite-youtube-embed@0.3.2/src/lite-yt-embed.js"></script>
 
     <script>
         tailwind.config = {
@@ -765,14 +768,14 @@
                             {
                                 name: "Metode Montessori Dasar",
                                 duration: "2 Hari",
-                                youtubeId: "3nQNiWdeH2Q",
+                                youtubeId: "BkHDzkOpG5M",
                                 materi: "Metode Montessori adalah suatu metode pendidikan untuk anak-anak, berdasar pada teori psikologi yang berpendapat bahwa anak secara alamiah memiliki kemampuan untuk belajar sendiri. <br/><br/>Poin penting dalam pelatihan ini:<br/>• Menyiapkan Lingkungan Belajar yang Menarik<br/>• Kebebasan yang Terstruktur<br/>• Pembelajaran Sensorik<br/>• Fokus pada Kemandirian Anak",
                                 pdf: "docs/montessori_dasar.pdf"
                             },
                             {
                                 name: "Penanganan Anak Aktif",
                                 duration: "1 Hari",
-                                youtubeId: "8jP8S8L3vO8",
+                                youtubeId: "dQw4w9WgXcQ",
                                 materi: "Pelatihan ini memberikan strategi bagi para guru untuk menangani anak-anak yang memiliki tingkat energi tinggi di kelas dengan cara yang positif dan edukatif.<br/><br/>Topik utama:<br/>• Memahami kebutuhan gerakan anak<br/>• Strategi 'Movement Break'<br/>• Teknik menenangkan diri (Calming techniques)<br/>• Komunikasi asertif dengan anak aktif",
                                 pdf: "docs/anak_aktif.pdf"
                             }
@@ -800,7 +803,7 @@
                             {
                                 name: "Strategi Literasi Kreatif",
                                 duration: "2 Hari",
-                                youtubeId: "c_lG6N-O0A4",
+                                youtubeId: "dQw4w9WgXcQ",
                                 materi: "Pelatihan ini dirancang untuk guru SD guna meningkatkan minat baca dan tulis siswa melalui metode yang kreatif dan interaktif.",
                                 pdf: "docs/literasi_sd.pdf"
                             },
@@ -829,7 +832,7 @@
                             {
                                 name: "Pembelajaran Berdiferensiasi",
                                 duration: "2 Hari",
-                                youtubeId: "c_lG6N-O0A4",
+                                youtubeId: "dQw4w9WgXcQ",
                                 materi: "Memahami cara mengajar yang menyesuaikan dengan gaya belajar, minat, dan kemampuan siswa yang berbeda-beda di tingkat SMP.",
                                 pdf: "docs/diferensiasi_smp.pdf"
                             },
@@ -858,7 +861,7 @@
                             {
                                 name: "Kewirausahaan Siswa",
                                 duration: "3 Hari",
-                                youtubeId: "c_lG6N-O0A4",
+                                youtubeId: "dQw4w9WgXcQ",
                                 materi: "Menumbuhkan jiwa entrepreneurship pada siswa SMA/SMK melalui proyek nyata dan mindset bisnis yang benar.",
                                 pdf: "docs/entrepreneur_sma.pdf"
                             },
@@ -1033,15 +1036,22 @@
             const categoryMap = { tk: 'TK / PAUD', sd: 'SD', smp: 'SMP', sma: 'SMA / SMK' };
             contentCategory.innerText = categoryMap[level] || 'Lainnya';
 
-            // Video Logic
-            const youtubeId = training.youtubeId || 'c_lG6N-O0A4'; // Default dummy video
+            // Video Logic - Menggunakan lite-youtube-embed untuk performa terbaik dan menghindari bot detection
+            const youtubeId = training.youtubeId || 'dQw4w9WgXcQ';
+            
             contentVideoContainer.innerHTML = `
-                <iframe class="absolute inset-0 w-full h-full" 
-                        src="https://www.youtube-nocookie.com/embed/${youtubeId}?autoplay=0" 
-                        title="YouTube video player" 
-                        frameborder="0" 
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                        allowfullscreen></iframe>
+                <lite-youtube 
+                    videoid="${youtubeId}" 
+                    class="absolute inset-0 w-full h-full"
+                    style="background-image: url('https://i.ytimg.com/vi/${youtubeId}/hqdefault.jpg');">
+                </lite-youtube>
+                <div class="absolute bottom-4 right-4 z-20">
+                    <a href="https://www.youtube.com/watch?v=${youtubeId}" target="_blank"
+                       class="bg-black/60 hover:bg-red-600 backdrop-blur-md text-white px-3 py-1.5 rounded-lg text-xs font-medium flex items-center transition-all">
+                        <svg class="w-4 h-4 mr-1.5" fill="currentColor" viewBox="0 0 24 24"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/></svg>
+                        Tonton di YouTube
+                    </a>
+                </div>
             `;
 
             // Materi Text Logic
@@ -1058,7 +1068,7 @@
 
         function closeContentModal() {
             contentModal.classList.add('hidden');
-            contentVideoContainer.innerHTML = ''; // Stop video
+            contentVideoContainer.innerHTML = ''; // Clear container
         }
 
         // --- PDF Generation Logic ---
