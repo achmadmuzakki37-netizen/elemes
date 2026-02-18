@@ -1,0 +1,1184 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduTrain - Platform Pelatihan Pendidikan</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- html2pdf.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: {
+                            50: '#ecfdf5',
+                            100: '#d1fae5',
+                            500: '#10b981', // emerald-500
+                            600: '#059669', // emerald-600
+                            700: '#047857', // emerald-700
+                        },
+                        secondary: {
+                            500: '#f59e0b', // amber-500
+                            400: '#fbbf24', // amber-400
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom scrollbar for webkit browsers */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        .dark ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+
+        .dark ::-webkit-scrollbar-thumb {
+            background: #475569;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+
+<body
+    class="bg-gray-50 text-gray-800 transition-colors duration-300 dark:bg-gray-900 dark:text-gray-100 font-sans antialiased">
+
+    <!-- Header -->
+    <header
+        class="sticky top-0 z-40 w-full backdrop-blur-md bg-white/80 dark:bg-gray-900/80 border-b border-gray-200 dark:border-gray-800 transition-colors duration-300">
+        <div class="container mx-auto px-4 md:px-6 h-16 flex items-center justify-between">
+            <!-- Logo -->
+            <div class="flex items-center gap-2">
+                <div
+                    class="w-10 h-10 bg-gradient-to-br from-primary-500 to-emerald-700 rounded-lg flex items-center justify-center text-white font-bold text-xl shadow-lg">
+                    E
+                </div>
+                <span
+                    class="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-300">
+                    EduTrain
+                </span>
+            </div>
+
+            <!-- Navigation & Dark Mode Toggle -->
+            <div class="flex items-center gap-6">
+                <nav class="hidden md:flex gap-6 text-sm font-medium">
+                    <a href="#" class="hover:text-primary-600 dark:hover:text-primary-500 transition-colors">Beranda</a>
+                    <a href="#courses"
+                        class="hover:text-primary-600 dark:hover:text-primary-500 transition-colors">Program</a>
+                    <button onclick="openPSLCCModal()"
+                        class="hover:text-primary-600 dark:hover:text-primary-500 transition-colors">Tentang
+                        Kami</button>
+                </nav>
+
+                <!-- Dark Mode Button -->
+                <button id="theme-toggle"
+                    class="relative p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-sm"
+                    aria-label="Toggle Dark Mode">
+                    <!-- Sun Icon -->
+                    <svg id="theme-toggle-light-icon" class="w-5 h-5 text-amber-500 hidden" fill="currentColor"
+                        viewBox="0 0 20 20">
+                        <path fill-rule="evenodd"
+                            d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"
+                            clip-rule="evenodd"></path>
+                    </svg>
+                    <!-- Moon Icon -->
+                    <svg id="theme-toggle-dark-icon" class="w-5 h-5 text-gray-500 hidden" fill="currentColor"
+                        viewBox="0 0 20 20">
+                        <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="relative pt-20 pb-24 md:pt-32 md:pb-36 overflow-hidden">
+        <div class="absolute inset-0 z-0 opacity-30 dark:opacity-20 pointer-events-none">
+            <div
+                class="absolute -top-24 -right-24 w-96 h-96 rounded-full bg-primary-100 blur-3xl dark:bg-primary-900/30">
+            </div>
+            <div
+                class="absolute top-1/2 left-0 w-72 h-72 rounded-full bg-secondary-100 blur-3xl dark:bg-secondary-900/20">
+            </div>
+        </div>
+
+        <div class="container mx-auto px-4 text-center relative z-10">
+            <span
+                class="inline-block py-1 px-3 rounded-full bg-primary-50 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400 text-sm font-semibold mb-6 border border-primary-100 dark:border-primary-800">
+                LMS Terpercaya untuk Pendidik
+            </span>
+            <h1
+                class="text-4xl md:text-6xl font-extrabold tracking-tight mb-6 leading-tight text-gray-900 dark:text-white">
+                Platform Pelatihan <span
+                    class="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-emerald-400">Pendidikan</span>
+                <br class="hidden md:block" /> Masa Depan
+            </h1>
+            <p class="text-lg md:text-xl text-gray-600 dark:text-gray-300 mb-10 max-w-2xl mx-auto leading-relaxed">
+                Tingkatkan kompetensi mengajar Anda dengan kurikulum terstruktur yang dirancang khusus untuk setiap
+                jenjang pendidikan, mulai dari PAUD hingga SMA/SMK.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="#courses"
+                    class="inline-flex items-center justify-center px-8 py-3.5 text-base font-medium text-white bg-primary-600 hover:bg-primary-700 rounded-xl shadow-lg hover:shadow-primary-500/30 transition-all duration-300 transform hover:-translate-y-1">
+                    Mulai Belajar
+                    <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+                    </svg>
+                </a>
+                <button onclick="openInfoModal()"
+                    class="inline-flex items-center justify-center px-8 py-3.5 text-base font-medium text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-xl transition-all duration-300 shadow-sm hover:shadow-md">
+                    Pelajari Lebih Lanjut
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Course Section -->
+    <section id="courses" class="py-20 bg-gray-50 dark:bg-gray-800/50 transition-colors duration-300">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4 text-gray-900 dark:text-white">Pilih Jenjang Pendidikan
+                </h2>
+                <div class="w-24 h-1.5 bg-primary-500 mx-auto rounded-full mb-6"></div>
+                <p class="text-gray-600 dark:text-gray-400 max-w-xl mx-auto">
+                    Program pelatihan yang disesuaikan dengan kebutuhan spesifik di setiap tingkatan pendidikan.
+                </p>
+            </div>
+
+            <!-- Grid 2x2 -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 max-w-5xl mx-auto">
+
+                <!-- Card TK/PAUD -->
+                <div onclick="openModal('tk')"
+                    class="group cursor-pointer relative overflow-hidden isolate rounded-2xl shadow-xl hover:shadow-2xl hover:shadow-primary-500/10 transition-all duration-300 border border-gray-100 dark:border-gray-700 transform hover:-translate-y-2">
+                    <!-- Background Image -->
+                    <img src="img/tk.jpg" alt="TK Background"
+                        class="absolute inset-0 -z-20 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+                    <!-- Overlay -->
+                    <div class="absolute inset-0 -z-10 bg-gray-900/70"></div>
+
+                    <div class="h-2 bg-gradient-to-r from-pink-400 to-rose-500 relative z-10"></div>
+                    <div class="p-8 relative z-10">
+                        <div
+                            class="w-14 h-14 rounded-xl bg-white/20 backdrop-blur-sm text-white flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                            <svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white mb-2 group-hover:text-primary-400 transition-colors">
+                            TK / PAUD</h3>
+                        <p class="text-gray-200 mb-6">Pelatihan tingkat TK/PAUD dengan pendekatan
+                            Montessori dan bermain sambil belajar.</p>
+                        <div
+                            class="flex items-center text-secondary-400 font-medium font-sm group-hover:translate-x-2 transition-transform duration-300">
+                            Lihat Jadwal Pelatihan
+                            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7">
+                                </path>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card SD -->
+                <div onclick="openModal('sd')"
+                    class="group cursor-pointer relative overflow-hidden isolate rounded-2xl shadow-xl hover:shadow-2xl hover:shadow-primary-500/10 transition-all duration-300 border border-gray-100 dark:border-gray-700 transform hover:-translate-y-2">
+                    <!-- Background Image -->
+                    <img src="img/sd.jpg" alt="SD Background"
+                        class="absolute inset-0 -z-20 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+                    <!-- Overlay -->
+                    <div class="absolute inset-0 -z-10 bg-gray-900/70"></div>
+
+                    <div class="h-2 bg-gradient-to-r from-sky-400 to-blue-500 relative z-10"></div>
+                    <div class="p-8 relative z-10">
+                        <div
+                            class="w-14 h-14 rounded-xl bg-white/20 backdrop-blur-sm text-white flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                            <svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                            </svg>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white mb-2 group-hover:text-primary-400 transition-colors">
+                            Sekolah Dasar (SD)</h3>
+                        <p class="text-gray-200 mb-6">Pelatihan tingkat SD fokus pada literasi,
+                            numerasi, dan pembentukan karakter dasar.</p>
+                        <div
+                            class="flex items-center text-secondary-400 font-medium font-sm group-hover:translate-x-2 transition-transform duration-300">
+                            Lihat Jadwal Pelatihan
+                            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7">
+                                </path>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card SMP -->
+                <div onclick="openModal('smp')"
+                    class="group cursor-pointer relative overflow-hidden isolate rounded-2xl shadow-xl hover:shadow-2xl hover:shadow-primary-500/10 transition-all duration-300 border border-gray-100 dark:border-gray-700 transform hover:-translate-y-2">
+                    <!-- Background Image -->
+                    <img src="img/smp.jpg" alt="SMP Background"
+                        class="absolute inset-0 -z-20 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+                    <!-- Overlay -->
+                    <div class="absolute inset-0 -z-10 bg-gray-900/70"></div>
+
+                    <div class="h-2 bg-gradient-to-r from-emerald-400 to-green-500 relative z-10"></div>
+                    <div class="p-8 relative z-10">
+                        <div
+                            class="w-14 h-14 rounded-xl bg-white/20 backdrop-blur-sm text-white flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                            <svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                            </svg>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white mb-2 group-hover:text-primary-400 transition-colors">
+                            SMP</h3>
+                        <p class="text-gray-200 mb-6">Pelatihan tingkat SMP dengan fokus pada
+                            pengembangan logika, sains, dan kreativitas.</p>
+                        <div
+                            class="flex items-center text-secondary-400 font-medium font-sm group-hover:translate-x-2 transition-transform duration-300">
+                            Lihat Jadwal Pelatihan
+                            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7">
+                                </path>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card SMA/SMK -->
+                <div onclick="openModal('sma')"
+                    class="group cursor-pointer relative overflow-hidden isolate rounded-2xl shadow-xl hover:shadow-2xl hover:shadow-primary-500/10 transition-all duration-300 border border-gray-100 dark:border-gray-700 transform hover:-translate-y-2">
+                    <!-- Background Image -->
+                    <img src="img/sma.jpg" alt="SMA Background"
+                        class="absolute inset-0 -z-20 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+                    <!-- Overlay -->
+                    <div class="absolute inset-0 -z-10 bg-gray-900/70"></div>
+
+                    <div class="h-2 bg-gradient-to-r from-amber-400 to-orange-500 relative z-10"></div>
+                    <div class="p-8 relative z-10">
+                        <div
+                            class="w-14 h-14 rounded-xl bg-white/20 backdrop-blur-sm text-white flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                            <svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                            </svg>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white mb-2 group-hover:text-primary-400 transition-colors">
+                            SMA / SMK</h3>
+                        <p class="text-gray-200 mb-6">Pelatihan tingkat SMA/SMK persiapan karir,
+                            teknologi industri, dan manajemen.</p>
+                        <div
+                            class="flex items-center text-secondary-400 font-medium font-sm group-hover:translate-x-2 transition-transform duration-300">
+                            Lihat Jadwal Pelatihan
+                            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7">
+                                </path>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal Section -->
+    <div id="courseModal" class="fixed inset-0 z-50 hidden overflow-y-auto" aria-labelledby="modal-title" role="dialog"
+        aria-modal="true">
+        <!-- Backdrop -->
+        <div onclick="closeModal()" class="fixed inset-0 bg-gray-900 bg-opacity-75 transition-opacity backdrop-blur-sm">
+        </div>
+
+        <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
+            <div
+                class="relative transform overflow-hidden rounded-2xl bg-white dark:bg-gray-800 text-left shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-4xl border border-gray-100 dark:border-gray-700">
+
+                <!-- Modal Header -->
+                <div
+                    class="bg-gray-50 dark:bg-gray-800/80 px-4 py-5 sm:px-6 border-b border-gray-100 dark:border-gray-700 flex justify-between items-center sticky top-0 z-10 backdrop-blur-md">
+                    <div>
+                        <h3 id="modalTitle" class="text-2xl font-bold leading-6 text-gray-900 dark:text-white">
+                            Loading...</h3>
+                        <p id="modalSubtitle" class="mt-1 max-w-2xl text-sm text-gray-500 dark:text-gray-400">Jadwal
+                            Pelatihan Tahunan</p>
+                    </div>
+                    <button type="button" onclick="closeModal()"
+                        class="rounded-full p-2 bg-gray-100 dark:bg-gray-700 text-gray-400 hover:text-gray-500 dark:hover:text-gray-300 focus:outline-none focus:ring-2 focus:ring-primary-500">
+                        <span class="sr-only">Close</span>
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                            aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Modal Body (List of Months) -->
+                <div class="px-4 py-6 sm:px-6 bg-white dark:bg-gray-800 min-h-[50vh]">
+                    <div id="monthsContainer" class="space-y-4">
+                        <!-- Content will be injected by JS -->
+                    </div>
+                </div>
+
+                <!-- Modal Footer -->
+                <div
+                    class="bg-gray-50 dark:bg-gray-800 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6 border-t border-gray-100 dark:border-gray-700">
+                    <button type="button" onclick="closeModal()"
+                        class="mt-3 inline-flex w-full justify-center rounded-xl bg-white dark:bg-gray-700 px-3 py-2 text-sm font-semibold text-gray-900 dark:text-white shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-600 hover:bg-gray-50 dark:hover:bg-gray-600 sm:mt-0 sm:w-auto transition-colors">Tutup</button>
+                    <button type="button" onclick="downloadPDF()"
+                        class="mt-3 sm:mt-0 sm:mr-3 inline-flex w-full justify-center rounded-xl bg-primary-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary-500 sm:w-auto transition-colors">Unduh
+                        Jadwal PDF</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Info Modal -->
+    <div id="infoModal" class="fixed inset-0 z-50 hidden overflow-y-auto" aria-labelledby="modal-title" role="dialog"
+        aria-modal="true">
+        <!-- Backdrop -->
+        <div onclick="closeInfoModal()"
+            class="fixed inset-0 bg-gray-900 bg-opacity-75 transition-opacity backdrop-blur-sm"></div>
+
+        <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
+            <div
+                class="relative transform overflow-hidden rounded-2xl bg-white dark:bg-gray-800 text-left shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-3xl border border-gray-100 dark:border-gray-700">
+
+                <!-- Modal Header -->
+                <div
+                    class="bg-gray-50 dark:bg-gray-800/80 px-4 py-5 sm:px-6 border-b border-gray-100 dark:border-gray-700 flex justify-between items-center sticky top-0 z-10 backdrop-blur-md">
+                    <h3 class="text-2xl font-bold leading-6 text-gray-900 dark:text-white">Tentang EduTrain</h3>
+                    <button type="button" onclick="closeInfoModal()"
+                        class="rounded-full p-2 bg-gray-100 dark:bg-gray-700 text-gray-400 hover:text-gray-500 dark:hover:text-gray-300 focus:outline-none focus:ring-2 focus:ring-primary-500">
+                        <span class="sr-only">Close</span>
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Modal Body -->
+                <div class="px-6 py-8 bg-white dark:bg-gray-800">
+                    <p class="text-gray-600 dark:text-gray-300 mb-8 text-lg leading-relaxed">
+                        EduTrain adalah platform pelatihan pendidikan terkemuka yang dirancang for memberdayakan
+                        pendidik di seluruh Indonesia. Kami menyediakan kurikulum yang komprehensif, metode
+                        pengajaran modern, dan dukungan komunitas yang kuat for membantu Anda mencapai potensi
+                        penuh dalam mengajar.
+                    </p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0">
+                                <span
+                                    class="inline-flex items-center justify-center h-10 w-10 rounded-lg bg-emerald-100 text-emerald-600 dark:bg-emerald-900/30 dark:text-emerald-400">
+                                    <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    </svg>
+                                </span>
+                            </div>
+                            <div class="ml-4">
+                                <h4 class="text-lg font-medium text-gray-900 dark:text-white">Kurikulum Terstandar
+                                </h4>
+                                <p class="mt-1 text-gray-500 dark:text-gray-400">Materi pelatihan yang disusun oleh
+                                    ahli pendidikan dan sesuai dengan standar nasional.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0">
+                                <span
+                                    class="inline-flex items-center justify-center h-10 w-10 rounded-lg bg-amber-100 text-amber-600 dark:bg-amber-900/30 dark:text-amber-400">
+                                    <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z">
+                                        </path>
+                                    </svg>
+                                </span>
+                            </div>
+                            <div class="ml-4">
+                                <h4 class="text-lg font-medium text-gray-900 dark:text-white">Mentor Berpengalaman
+                                </h4>
+                                <p class="mt-1 text-gray-500 dark:text-gray-400">Belajar langsung dari praktisi
+                                    pendidikan terbaik yang memiliki pengalaman luas.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0">
+                                <span
+                                    class="inline-flex items-center justify-center h-10 w-10 rounded-lg bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400">
+                                    <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    </svg>
+                                </span>
+                            </div>
+                            <div class="ml-4">
+                                <h4 class="text-lg font-medium text-gray-900 dark:text-white">Fleksibilitas Waktu
+                                </h4>
+                                <p class="mt-1 text-gray-500 dark:text-gray-400">Akses materi kapan saja dan di mana
+                                    saja sesuai dengan jadwal Anda.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0">
+                                <span
+                                    class="inline-flex items-center justify-center h-10 w-10 rounded-lg bg-rose-100 text-rose-600 dark:bg-rose-900/30 dark:text-rose-400">
+                                    <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z">
+                                        </path>
+                                    </svg>
+                                </span>
+                            </div>
+                            <div class="ml-4">
+                                <h4 class="text-lg font-medium text-gray-900 dark:text-white">Komunitas Pendidik
+                                </h4>
+                                <p class="mt-1 text-gray-500 dark:text-gray-400">Bergabung dengan ribuan pendidik
+                                    lainnya for berbagi ide dan inspirasi.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal Footer -->
+                <div
+                    class="bg-gray-50 dark:bg-gray-800 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6 border-t border-gray-100 dark:border-gray-700">
+                    <button type="button" onclick="closeInfoModal()"
+                        class="inline-flex w-full justify-center rounded-xl bg-primary-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-primary-500 sm:ml-3 sm:w-auto transition-colors">
+                        Tutup
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- PSLCC Info Modal -->
+    <div id="pslccModal" class="fixed inset-0 z-50 hidden overflow-y-auto" aria-labelledby="modal-title" role="dialog"
+        aria-modal="true">
+        <!-- Backdrop -->
+        <div onclick="closePSLCCModal()"
+            class="fixed inset-0 bg-gray-900 bg-opacity-75 transition-opacity backdrop-blur-sm"></div>
+
+        <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
+            <div
+                class="relative transform overflow-hidden rounded-2xl bg-white dark:bg-gray-800 text-left shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-3xl border border-gray-100 dark:border-gray-700">
+
+                <!-- Modal Header -->
+                <div
+                    class="bg-gray-50 dark:bg-gray-800/80 px-4 py-5 sm:px-6 border-b border-gray-100 dark:border-gray-700 flex justify-between items-center sticky top-0 z-10 backdrop-blur-md">
+                    <div class="flex items-center gap-3">
+                        <div
+                            class="w-10 h-10 bg-primary-600 rounded-lg flex items-center justify-center text-white font-bold text-xl">
+                            P</div>
+                        <h3 class="text-xl font-bold leading-6 text-gray-900 dark:text-white">PSLCC Indonesia</h3>
+                    </div>
+                    <button type="button" onclick="closePSLCCModal()"
+                        class="rounded-full p-2 bg-gray-100 dark:bg-gray-700 text-gray-400 hover:text-gray-500 dark:hover:text-gray-300 focus:outline-none focus:ring-2 focus:ring-primary-500">
+                        <span class="sr-only">Close</span>
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Modal Body -->
+                <div class="px-6 py-8 bg-white dark:bg-gray-800 max-h-[70vh] overflow-y-auto">
+                    <div class="mb-8">
+                        <h4 class="text-lg font-bold text-gray-900 dark:text-white mb-3">Apa itu PSLCC?</h4>
+                        <p class="text-gray-600 dark:text-gray-300 leading-relaxed text-justify">
+                            <strong>PGRI Smart Learning and Character Center (PSLCC)</strong> adalah badan kelengkapan
+                            organisasi PGRI yang berfokus pada pengembangan profesi guru dan pendidikan karakter
+                            berbasis teknologi informasi. PSLCC hadir sebagai jawaban atas tantangan era digital dengan
+                            visi memberdayakan pendidik di seluruh penjuru tanah air.
+                        </p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                        <div
+                            class="p-4 rounded-xl bg-primary-50 dark:bg-primary-900/20 border border-primary-100 dark:border-primary-800">
+                            <h5 class="font-bold text-primary-700 dark:text-primary-400 mb-2 flex items-center">
+                                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                                </svg>
+                                Visi Utama
+                            </h5>
+                            <p class="text-sm text-gray-600 dark:text-gray-300">Transformasi guru menjadi orkestrator
+                                teknologi yang cakap dalam pedagogi siber dan pembangunan karakter.</p>
+                        </div>
+                        <div
+                            class="p-4 rounded-xl bg-amber-50 dark:bg-amber-900/20 border border-amber-100 dark:border-amber-800">
+                            <h5 class="font-bold text-amber-700 dark:text-amber-400 mb-2 flex items-center">
+                                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M13 10V3L4 14h7v7l9-11h-7z" />
+                                </svg>
+                                Fokus Kompetensi
+                            </h5>
+                            <p class="text-sm text-gray-600 dark:text-gray-300">Literasi Digital, Cyber Pedagogy, Soft
+                                Skills, dan Integrasi Nilai Pancasila dalam teknologi.</p>
+                        </div>
+                    </div>
+
+                    <div class="space-y-4">
+                        <h4 class="text-lg font-bold text-gray-900 dark:text-white mb-2">Pilar Program PSLCC</h4>
+                        <ul class="space-y-3">
+                            <li class="flex items-start">
+                                <div
+                                    class="w-6 h-6 rounded-full bg-emerald-100 dark:bg-emerald-900/40 text-emerald-600 dark:text-emerald-400 flex items-center justify-center mr-3 mt-1 flex-shrink-0 text-xs font-bold">
+                                    1</div>
+                                <div>
+                                    <span class="font-semibold text-gray-800 dark:text-gray-200">Teacher Professional
+                                        Development</span>
+                                    <p class="text-sm text-gray-500 dark:text-gray-400">Workshop berkelanjutan untuk
+                                        penguasaan platform edukasi digital kelas dunia.</p>
+                                </div>
+                            </li>
+                            <li class="flex items-start">
+                                <div
+                                    class="w-6 h-6 rounded-full bg-emerald-100 dark:bg-emerald-900/40 text-emerald-600 dark:text-emerald-400 flex items-center justify-center mr-3 mt-1 flex-shrink-0 text-xs font-bold">
+                                    2</div>
+                                <div>
+                                    <span class="font-semibold text-gray-800 dark:text-gray-200">Inovasi Cyber
+                                        Pedagogy</span>
+                                    <p class="text-sm text-gray-500 dark:text-gray-400">Pemanfaatan AR/VR, Gamifikasi,
+                                        dan Coding dalam kurikulum sekolah.</p>
+                                </div>
+                            </li>
+                            <li class="flex items-start">
+                                <div
+                                    class="w-6 h-6 rounded-full bg-emerald-100 dark:bg-emerald-900/40 text-emerald-600 dark:text-emerald-400 flex items-center justify-center mr-3 mt-1 flex-shrink-0 text-xs font-bold">
+                                    3</div>
+                                <div>
+                                    <span class="font-semibold text-gray-800 dark:text-gray-200">Karakter Unggul
+                                        Digital</span>
+                                    <p class="text-sm text-gray-500 dark:text-gray-400">Menanamkan etika berinternet dan
+                                        pembentukan profil pelajar Pancasila melalui teknologi.</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Modal Footer -->
+                <div
+                    class="bg-gray-50 dark:bg-gray-800 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6 border-t border-gray-100 dark:border-gray-700">
+                    <button type="button" onclick="closePSLCCModal()"
+                        class="inline-flex w-full justify-center rounded-xl bg-primary-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-primary-500 sm:ml-3 sm:w-auto transition-colors">
+                        Tutup
+                    </button>
+                    <a href="https://pslccpgri.id" target="_blank"
+                        class="mt-3 sm:mt-0 inline-flex w-full justify-center rounded-xl bg-white dark:bg-gray-700 px-5 py-2.5 text-sm font-semibold text-gray-900 dark:text-white shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-600 hover:bg-gray-50 dark:hover:bg-gray-600 sm:w-auto transition-colors">
+                        Kunjungi Website Resmi
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Training Content Modal -->
+    <div id="contentModal" class="fixed inset-0 z-[60] hidden overflow-y-auto" aria-labelledby="modal-title"
+        role="dialog" aria-modal="true">
+        <!-- Backdrop -->
+        <div onclick="closeContentModal()" class="fixed inset-0 bg-gray-900/80 transition-opacity backdrop-blur-sm">
+        </div>
+
+        <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
+            <div
+                class="relative transform overflow-hidden rounded-2xl bg-white dark:bg-gray-800 text-left shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-3xl border border-gray-100 dark:border-gray-700">
+
+                <!-- Close Button (Absolute) -->
+                <button type="button" onclick="closeContentModal()"
+                    class="absolute top-4 right-4 z-20 rounded-full p-2 bg-gray-100/50 dark:bg-gray-700/50 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 transition-colors">
+                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+
+                <div class="p-0">
+                    <!-- Video Section (Top) -->
+                    <div id="contentVideoContainer" class="aspect-video w-full bg-black relative">
+                        <!-- YouTube Embed will be here -->
+                    </div>
+
+                    <!-- Scrollable Content Section -->
+                    <div class="p-6 md:p-8 space-y-8 max-h-[60vh] overflow-y-auto custom-scrollbar">
+                        <div>
+                            <h3 id="contentTitle"
+                                class="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-2">
+                                Nama Pelatihan
+                            </h3>
+                            <div class="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400">
+                                <span id="contentDuration" class="flex items-center">
+                                    <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    </svg>
+                                    Durasi: 2 Hari
+                                </span>
+                                <span id="contentCategory"
+                                    class="px-2 py-0.5 rounded-md bg-primary-50 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400 font-medium">
+                                    TK / PAUD
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- Materi Teks -->
+                        <div class="prose dark:prose-invert max-w-none">
+                            <h4
+                                class="text-lg font-bold text-gray-900 dark:text-white border-l-4 border-primary-500 pl-3 mb-4">
+                                Materi Pembelajaran</h4>
+                            <div id="materiText" class="text-gray-600 dark:text-gray-300 leading-relaxed space-y-4">
+                                <!-- Materi will be injected here -->
+                            </div>
+                        </div>
+
+                        <!-- Download Section -->
+                        <div class="pt-6 border-t border-gray-100 dark:border-gray-700">
+                            <h4 class="text-lg font-bold text-gray-900 dark:text-white mb-4">Referensi & Unduhan</h4>
+                            <div class="flex flex-wrap gap-4">
+                                <a id="pdfDownloadBtn" href="#" target="_blank"
+                                    class="inline-flex items-center px-5 py-2.5 rounded-xl bg-primary-600 text-white font-semibold hover:bg-primary-700 transition-colors shadow-lg shadow-primary-500/20">
+                                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M12 10v6m0 0l-3-3m3 3l3-3m0 8.5V4a2 2 0 00-2-2H5a2 2 0 00-2 2v18a2 2 0 002 2h14a2 2 0 002-2v-3.5">
+                                        </path>
+                                    </svg>
+                                    Unduh Materi PDF
+                                </a>
+                                <button onclick="closeContentModal()"
+                                    class="inline-flex items-center px-5 py-2.5 rounded-xl border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-300 font-medium hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                                    Tutup
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer
+        class="bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 py-12 transition-colors duration-300">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">EduTrain</h2>
+            <p class="text-gray-500 dark:text-gray-400 mb-8 max-w-md mx-auto">Platform pengembangan profesionalisme
+                pendidik terdepan di Indonesia. Bersama membangun masa depan pendidikan yang lebih cerah.</p>
+            <div class="flex justify-center space-x-6 mb-8">
+                <a href="#" class="text-gray-400 hover:text-primary-500 transition-colors">
+                    <span class="sr-only">Facebook</span>
+                    <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                        <path fill-rule="evenodd"
+                            d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"
+                            clip-rule="evenodd" />
+                    </svg>
+                </a>
+                <a href="#" class="text-gray-400 hover:text-primary-500 transition-colors">
+                    <span class="sr-only">Instagram</span>
+                    <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                        <path fill-rule="evenodd"
+                            d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.067-.06-1.407-.06-4.123v-.08c0-2.643.013-2.987.06-4.043.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772 4.902 4.902 0 011.772-1.153c.636-.247 1.363-.416 2.427-.465 1.067-.047 1.407-.06 4.123-.06h.08zm0 1.802c-2.41 0-2.71.01-3.66.052-.949.043-1.464.204-1.808.337a3.076 3.076 0 00-1.127.734 3.076 3.076 0 00-.734 1.127c-.134.344-.294.86-.337 1.808-.043.95-.052 1.25-.052 3.66s.009 2.71.052 3.66c.043.949.204 1.464.337 1.808.318.82.936 1.438 1.758 1.758.344.134.86.294 1.808.337.95.043 1.25.052 3.66.052s2.71-.009 3.66-.052c.949-.043 1.464-.204 1.808-.337a3.076 3.076 0 001.127-.734 3.076 3.076 0 00.734-1.127c.134-.344.294-.86.337-1.808.043-.95.052-1.25.052-3.66s-.009-2.71-.052-3.66c-.043-.949-.204-1.464-.337-1.808a3.076 3.076 0 00-1.127-.734 3.076 3.076 0 00-.734-1.127c-.344-.134-.86-.294-1.808-.337-.95-.043-1.25-.052-3.66-.052zm0 4.378a5.22 5.22 0 110 10.44 5.22 5.22 0 010-10.44zM12.315 15.939a3.418 3.418 0 100-6.836 3.418 3.418 0 000 6.836zm6.304-8.89a1.201 1.201 0 110 2.402 1.201 1.201 0 010-2.402z"
+                            clip-rule="evenodd" />
+                    </svg>
+                </a>
+            </div>
+            <p class="text-sm text-gray-400">&copy; 2024 EduTrain Indonesia. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // --- Dark Mode Logic ---
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+        const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+
+        // Check Local Storage or System Preference
+        if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+            themeToggleLightIcon.classList.remove('hidden');
+        } else {
+            document.documentElement.classList.remove('dark');
+            themeToggleDarkIcon.classList.remove('hidden');
+        }
+
+        themeToggleBtn.addEventListener('click', function () {
+            // Toggle icons
+            themeToggleDarkIcon.classList.toggle('hidden');
+            themeToggleLightIcon.classList.toggle('hidden');
+
+            // If is set in localstorage
+            if (localStorage.getItem('color-theme')) {
+                if (localStorage.getItem('color-theme') === 'light') {
+                    document.documentElement.classList.add('dark');
+                    localStorage.setItem('color-theme', 'dark');
+                } else {
+                    document.documentElement.classList.remove('dark');
+                    localStorage.setItem('color-theme', 'light');
+                }
+            } else {
+                if (document.documentElement.classList.contains('dark')) {
+                    document.documentElement.classList.remove('dark');
+                    localStorage.setItem('color-theme', 'light');
+                } else {
+                    document.documentElement.classList.add('dark');
+                    localStorage.setItem('color-theme', 'dark');
+                }
+            }
+        });
+
+        // --- Data Course ---
+        const courseData = {
+            tk: {
+                title: "Jadwal Pelatihan TK/PAUD",
+                months: [
+                    {
+                        name: "Januari",
+                        trainings: [
+                            {
+                                name: "Metode Montessori Dasar",
+                                duration: "2 Hari",
+                                youtubeId: "3nQNiWdeH2Q",
+                                materi: "Metode Montessori adalah suatu metode pendidikan untuk anak-anak, berdasar pada teori psikologi yang berpendapat bahwa anak secara alamiah memiliki kemampuan untuk belajar sendiri. <br/><br/>Poin penting dalam pelatihan ini:<br/>• Menyiapkan Lingkungan Belajar yang Menarik<br/>• Kebebasan yang Terstruktur<br/>• Pembelajaran Sensorik<br/>• Fokus pada Kemandirian Anak",
+                                pdf: "docs/montessori_dasar.pdf"
+                            },
+                            {
+                                name: "Penanganan Anak Aktif",
+                                duration: "1 Hari",
+                                youtubeId: "8jP8S8L3vO8",
+                                materi: "Pelatihan ini memberikan strategi bagi para guru untuk menangani anak-anak yang memiliki tingkat energi tinggi di kelas dengan cara yang positif dan edukatif.<br/><br/>Topik utama:<br/>• Memahami kebutuhan gerakan anak<br/>• Strategi 'Movement Break'<br/>• Teknik menenangkan diri (Calming techniques)<br/>• Komunikasi asertif dengan anak aktif",
+                                pdf: "docs/anak_aktif.pdf"
+                            }
+                        ]
+                    },
+                    { name: "Februari", trainings: [{ name: "Seni Bercerita untuk Anak", duration: "1 Hari" }, { name: "Musik dan Gerak", duration: "2 Hari" }] },
+                    { name: "Maret", trainings: [{ name: "Kreativitas Daur Ulang", duration: "1 Hari" }, { name: "Pengenalan Huruf & Angka", duration: "2 Hari" }] },
+                    { name: "April", trainings: [{ name: "Psikologi Perkembangan Anak", duration: "3 Hari" }, { name: "Manajemen Kelas PAUD", duration: "1 Hari" }] },
+                    { name: "Mei", trainings: [{ name: "Gizi Seimbang Anak Usia Dini", duration: "1 Hari" }, { name: "P3K untuk Guru PAUD", duration: "1 Hari" }] },
+                    { name: "Juni", trainings: [{ name: "Evaluasi Pembelajaran PAUD", duration: "2 Hari" }, { name: "Media Pembelajaran Digital", duration: "2 Hari" }] },
+                    { name: "Juli", trainings: [{ name: "Persiapan Tahun Ajaran Baru", duration: "2 Hari" }, { name: "Komunikasi dengan Ortu", duration: "1 Hari" }] },
+                    { name: "Agustus", trainings: [{ name: "Pendidikan Karakter", duration: "2 Hari" }, { name: "Permainan Tradisional", duration: "1 Hari" }] },
+                    { name: "September", trainings: [{ name: "Bahasa Inggris Dasar Anak", duration: "2 Hari" }, { name: "Pengenalan Sains Sederhana", duration: "1 Hari" }] },
+                    { name: "Oktober", trainings: [{ name: "Seni Rupa untuk Anak", duration: "1 Hari" }, { name: "Pencegahan Bullying Dini", duration: "1 Hari" }] },
+                    { name: "November", trainings: [{ name: "Dongeng Interaktif", duration: "1 Hari" }, { name: "Stimulasi Motorik Halus", duration: "1 Hari" }] },
+                    { name: "Desember", trainings: [{ name: "Refleksi Akhir Tahun", duration: "1 Hari" }, { name: "Peran Guru di Era Digital", duration: "1 Hari" }] },
+                ]
+            },
+            sd: {
+                title: "Jadwal Pelatihan Sekolah Dasar",
+                months: [
+                    {
+                        name: "Januari",
+                        trainings: [
+                            {
+                                name: "Strategi Literasi Kreatif",
+                                duration: "2 Hari",
+                                youtubeId: "c_lG6N-O0A4",
+                                materi: "Pelatihan ini dirancang untuk guru SD guna meningkatkan minat baca dan tulis siswa melalui metode yang kreatif dan interaktif.",
+                                pdf: "docs/literasi_sd.pdf"
+                            },
+                            { name: "Matematika Menyenangkan", duration: "2 Hari" }
+                        ]
+                    },
+                    { name: "Februari", trainings: [{ name: "Manajemen Kelas Efektif", duration: "2 Hari" }, { name: "Pendidikan Inklusif Dasar", duration: "3 Hari" }] },
+                    { name: "Maret", trainings: [{ name: "Sains Eksperimen SD", duration: "2 Hari" }, { name: "Kurikulum Merdeka Dasar", duration: "3 Hari" }] },
+                    { name: "April", trainings: [{ name: "Teknologi dalam Kelas", duration: "2 Hari" }, { name: "Asesmen Kompetensi Minimum", duration: "2 Hari" }] },
+                    { name: "Mei", trainings: [{ name: "Pendidikan Karakter SD", duration: "2 Hari" }, { name: "Public Speaking untuk Guru", duration: "1 Hari" }] },
+                    { name: "Juni", trainings: [{ name: "Project Based Learning", duration: "3 Hari" }, { name: "Evaluasi Rapor Siswa", duration: "1 Hari" }] },
+                    { name: "Juli", trainings: [{ name: "Persiapan RPP Semester Ganjil", duration: "2 Hari" }, { name: "Ice Breaking Kreatif", duration: "1 Hari" }] },
+                    { name: "Agustus", trainings: [{ name: "Penguatan Profil Pelajar Pancasila", duration: "2 Hari" }, { name: "Lomba Cerdas Cermat", duration: "1 Hari" }] },
+                    { name: "September", trainings: [{ name: "Coding untuk Anak SD", duration: "2 Hari" }, { name: "Bahasa Inggris Komunikatif", duration: "2 Hari" }] },
+                    { name: "Oktober", trainings: [{ name: "Konseling Dasar Siswa SD", duration: "2 Hari" }, { name: "Pencegahan Perundungan", duration: "1 Hari" }] },
+                    { name: "November", trainings: [{ name: "Media Pembelajaran Video", duration: "2 Hari" }, { name: "Olimpiade Sains Persiapan", duration: "2 Hari" }] },
+                    { name: "Desember", trainings: [{ name: "Review Kurikulum Tahunan", duration: "2 Hari" }, { name: "Team Building Guru SD", duration: "1 Hari" }] },
+                ]
+            },
+            smp: {
+                title: "Jadwal Pelatihan SMP",
+                months: [
+                    {
+                        name: "Januari",
+                        trainings: [
+                            {
+                                name: "Pembelajaran Berdiferensiasi",
+                                duration: "2 Hari",
+                                youtubeId: "c_lG6N-O0A4",
+                                materi: "Memahami cara mengajar yang menyesuaikan dengan gaya belajar, minat, dan kemampuan siswa yang berbeda-beda di tingkat SMP.",
+                                pdf: "docs/diferensiasi_smp.pdf"
+                            },
+                            { name: "Asesmen Diagnostik", duration: "1 Hari" }
+                        ]
+                    },
+                    { name: "Februari", trainings: [{ name: "STEM Education Dasar", duration: "3 Hari" }, { name: "Literasi Digital Remaja", duration: "1 Hari" }] },
+                    { name: "Maret", trainings: [{ name: "Psikologi Remaja Awal", duration: "2 Hari" }, { name: "Bimbingan Karir Dasar", duration: "1 Hari" }] },
+                    { name: "April", trainings: [{ name: "Google Workspace for Education", duration: "2 Hari" }, { name: "Penulisan Karya Ilmiah Guru", duration: "3 Hari" }] },
+                    { name: "Mei", trainings: [{ name: "Bahasa Asing Pilihan", duration: "3 Hari" }, { name: "Manajemen Konflik Siswa", duration: "1 Hari" }] },
+                    { name: "Juni", trainings: [{ name: "Design Thinking untuk Guru", duration: "2 Hari" }, { name: "Evaluasi Kinerja Guru", duration: "1 Hari" }] },
+                    { name: "Juli", trainings: [{ name: "Orientasi Siswa Baru (MPLS)", duration: "2 Hari" }, { name: "Kepemimpinan di Kelas", duration: "1 Hari" }] },
+                    { name: "Agustus", trainings: [{ name: "Nasionalisme & Wawasan Kebangsaan", duration: "1 Hari" }, { name: "Ekskul Manajemen", duration: "1 Hari" }] },
+                    { name: "September", trainings: [{ name: "Pembuatan Modul Ajar Digital", duration: "3 Hari" }, { name: "Robotika Dasar", duration: "2 Hari" }] },
+                    { name: "Oktober", trainings: [{ name: "Sex Education yang Tepat", duration: "1 Hari" }, { name: "Kesehatan Mental Remaja", duration: "2 Hari" }] },
+                    { name: "November", trainings: [{ name: "Persiapan Ujian Sekolah", duration: "1 Hari" }, { name: "Analisis Butir Soal", duration: "2 Hari" }] },
+                    { name: "Desember", trainings: [{ name: "Workshop Rencana Tahunan", duration: "2 Hari" }, { name: "Guru Penggerak Intro", duration: "1 Hari" }] },
+                ]
+            },
+            sma: {
+                title: "Jadwal Pelatihan SMA/SMK",
+                months: [
+                    {
+                        name: "Januari",
+                        trainings: [
+                            {
+                                name: "Kewirausahaan Siswa",
+                                duration: "3 Hari",
+                                youtubeId: "c_lG6N-O0A4",
+                                materi: "Menumbuhkan jiwa entrepreneurship pada siswa SMA/SMK melalui proyek nyata dan mindset bisnis yang benar.",
+                                pdf: "docs/entrepreneur_sma.pdf"
+                            },
+                            { name: "Teaching Factory Dasar", duration: "2 Hari" }
+                        ]
+                    },
+                    { name: "Februari", trainings: [{ name: "Persiapan UTBK Siswa", duration: "2 Hari" }, { name: "Manajemen Lab Komputer", duration: "2 Hari" }] },
+                    { name: "Maret", trainings: [{ name: "Link and Match Industri", duration: "2 Hari" }, { name: "Sertifikasi Kompetensi Guru", duration: "5 Hari" }] },
+                    { name: "April", trainings: [{ name: "Soft Skill Dunia Kerja", duration: "1 Hari" }, { name: "Public Relations Sekolah", duration: "2 Hari" }] },
+                    { name: "Mei", trainings: [{ name: "Beasiswa Kuliah Info Session", duration: "1 Hari" }, { name: "Penelitian Tindakan Kelas", duration: "3 Hari" }] },
+                    { name: "Juni", trainings: [{ name: "Teknologi IoT Dasar", duration: "3 Hari" }, { name: "Desain Grafis untuk Pembelajaran", duration: "2 Hari" }] },
+                    { name: "Juli", trainings: [{ name: "Budaya Kerja Industri", duration: "2 Hari" }, { name: "Kepemimpinan OSIS", duration: "2 Hari" }] },
+                    { name: "Agustus", trainings: [{ name: "Peringatan Kemerdekaan & Kreativitas", duration: "1 Hari" }, { name: "Video Editing Dasar", duration: "2 Hari" }] },
+                    { name: "September", trainings: [{ name: "Digital Marketing Basics", duration: "2 Hari" }, { name: "Akuntansi Dasar SMK", duration: "2 Hari" }] },
+                    { name: "Oktober", trainings: [{ name: "Kesehatan & Keselamatan Kerja (K3)", duration: "2 Hari" }, { name: "Bahasa Jepang/Jerman Dasar", duration: "3 Hari" }] },
+                    { name: "November", trainings: [{ name: "Review Portofolio Siswa", duration: "2 Hari" }, { name: "Coaching & Mentoring", duration: "2 Hari" }] },
+                    { name: "Desember", trainings: [{ name: "Evaluasi Program Tahunan", duration: "2 Hari" }, { name: "Leadership Camp Guru", duration: "2 Hari" }] },
+                ]
+            }
+        };
+
+        // --- Modal & Accordion Logic ---
+        const modal = document.getElementById('courseModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const monthsContainer = document.getElementById('monthsContainer');
+        let currentActiveLevel = null;
+
+        function openModal(level) {
+            currentActiveLevel = level;
+            const data = courseData[level];
+            if (!data) return;
+
+            modalTitle.innerText = data.title;
+            monthsContainer.innerHTML = ''; // Clear previous content
+
+            data.months.forEach((month, index) => {
+                // Determine if this is the current actual month to potentially auto-open (optional, lets simplify to closed or first open)
+                // Let's create the accordion item
+                const item = document.createElement('div');
+                item.className = 'border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden mb-3 bg-white dark:bg-gray-800 transition-colors shadow-sm';
+
+                const header = document.createElement('button');
+                header.className = 'w-full flex justify-between items-center p-4 bg-gray-50 dark:bg-gray-800/50 hover:bg-gray-100 dark:hover:bg-gray-700 text-left font-semibold text-gray-800 dark:text-gray-200 transition-colors focus:outline-none';
+                header.onclick = () => toggleAccordion(index);
+
+                header.innerHTML = `
+                    <span class="flex items-center gap-3">
+                        <span class="w-8 h-8 rounded-lg bg-primary-100 dark:bg-primary-900/40 text-primary-600 dark:text-primary-400 flex items-center justify-center text-xs font-bold">${index + 1}</span>
+                        ${month.name}
+                    </span>
+                    <svg id="icon-${index}" class="w-5 h-5 text-gray-400 transform transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                `;
+
+                const content = document.createElement('div');
+                content.id = `content-${index}`;
+                content.className = 'hidden bg-white dark:bg-gray-800 p-4 border-t border-gray-100 dark:border-gray-700/50';
+
+                // Content Inner HTML (List of Trainings)
+                let trainingsHtml = '<div class="grid grid-cols-1 md:grid-cols-2 gap-4">';
+                month.trainings.forEach((training, tIndex) => {
+                    const durationColor = training.duration.includes('1') ? 'text-emerald-500' : 'text-amber-500';
+                    trainingsHtml += `
+                        <div onclick="openContentModal('${level}', ${index}, ${tIndex})" 
+                             class="group/item flex items-start p-3 rounded-lg border border-gray-50 dark:border-gray-700 hover:border-primary-200 dark:hover:border-primary-700 bg-gray-50/50 dark:bg-gray-700/30 transition-all hover:shadow-md cursor-pointer">
+                             <div class="mr-3 mt-1">
+                                <div class="w-2.5 h-2.5 rounded-full bg-primary-500 group-hover/item:scale-125 transition-transform"></div>
+                             </div>
+                             <div class="flex-1">
+                                <h5 class="text-sm font-semibold text-gray-900 dark:text-gray-100 group-hover/item:text-primary-600 dark:group-hover/item:text-primary-400 transition-colors">${training.name}</h5>
+                                <div class="flex items-center justify-between mt-1">
+                                    <span class="text-[10px] font-medium ${durationColor} flex items-center">
+                                         <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                         ${training.duration}
+                                    </span>
+                                    <span class="text-[10px] text-primary-500 font-bold opacity-0 group-hover/item:opacity-100 transition-opacity flex items-center">
+                                        Mulai Belajar <svg class="w-2.5 h-2.5 ml-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                                    </span>
+                                </div>
+                             </div>
+                        </div>
+                    `;
+                });
+                trainingsHtml += '</div>';
+
+                content.innerHTML = trainingsHtml;
+
+                item.appendChild(header);
+                item.appendChild(content);
+                monthsContainer.appendChild(item);
+            });
+
+            // Open Modal Animation
+            modal.classList.remove('hidden');
+            // Prevent body scroll
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            modal.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        function toggleAccordion(index) {
+            const content = document.getElementById(`content-${index}`);
+            const icon = document.getElementById(`icon-${index}`);
+
+            // Close others (optional - standard accordion behavior)
+            // const allContents = document.querySelectorAll('[id^="content-"]');
+            // allContents.forEach(c => {
+            //    if (c.id !== `content-${index}`) c.classList.add('hidden');
+            // });
+            // const allIcons = document.querySelectorAll('[id^="icon-"]');
+            // allIcons.forEach(i => {
+            //     if (i.id !== `icon-${index}`) i.classList.remove('rotate-180');
+            // });
+
+            // Toggle current
+            content.classList.toggle('hidden');
+
+            if (content.classList.contains('hidden')) {
+                icon.classList.remove('rotate-180');
+            } else {
+                icon.classList.add('rotate-180');
+            }
+        }
+
+        // --- Info Modal Logic ---
+        const infoModal = document.getElementById('infoModal');
+
+        function openInfoModal() {
+            infoModal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeInfoModal() {
+            infoModal.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        // --- PSLCC Modal Logic ---
+        const pslccModal = document.getElementById('pslccModal');
+
+        function openPSLCCModal() {
+            pslccModal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closePSLCCModal() {
+            pslccModal.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        // --- Training Content Modal Logic ---
+        const contentModal = document.getElementById('contentModal');
+        const contentTitle = document.getElementById('contentTitle');
+        const contentDuration = document.getElementById('contentDuration');
+        const contentCategory = document.getElementById('contentCategory');
+        const contentVideoContainer = document.getElementById('contentVideoContainer');
+        const materiText = document.getElementById('materiText');
+        const pdfDownloadBtn = document.getElementById('pdfDownloadBtn');
+
+        function openContentModal(level, monthIndex, trainingIndex) {
+            const training = courseData[level].months[monthIndex].trainings[trainingIndex];
+            if (!training) return;
+
+            // Fill Content
+            contentTitle.innerText = training.name;
+            contentDuration.innerHTML = `<svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg> Durasi: ${training.duration}`;
+
+            const categoryMap = { tk: 'TK / PAUD', sd: 'SD', smp: 'SMP', sma: 'SMA / SMK' };
+            contentCategory.innerText = categoryMap[level] || 'Lainnya';
+
+            // Video Logic
+            const youtubeId = training.youtubeId || 'c_lG6N-O0A4'; // Default dummy video
+            contentVideoContainer.innerHTML = `
+                <iframe class="absolute inset-0 w-full h-full" 
+                        src="https://www.youtube.com/embed/${youtubeId}?autoplay=0" 
+                        title="YouTube video player" 
+                        frameborder="0" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                        allowfullscreen></iframe>
+            `;
+
+            // Materi Text Logic
+            materiText.innerHTML = training.materi || "Materi untuk pelatihan ini sedang dalam tahap penyusunan. Harap cek kembali secara berkala untuk mendapatkan materi lengkap, panduan, dan sumber daya pendukung lainnya yang berkaitan dengan topik ini.";
+
+            // PDF Logic
+            pdfDownloadBtn.href = training.pdf || "#";
+
+            // Show Modal
+            contentModal.classList.remove('hidden');
+            // Ensure courseModal stays but body scroll disabled
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeContentModal() {
+            contentModal.classList.add('hidden');
+            contentVideoContainer.innerHTML = ''; // Stop video
+        }
+
+        // --- PDF Generation Logic ---
+        function downloadPDF() {
+            if (!currentActiveLevel) return;
+
+            const data = courseData[currentActiveLevel];
+            const title = data.title;
+
+            // Show loading state (optional)
+            const btn = event.currentTarget;
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<svg class="animate-spin h-4 w-4 mr-2 inline-block" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Generating...';
+            btn.disabled = true;
+
+            // Generate HTML Content for PDF
+            let htmlContent = `
+                <div style="font-family: 'Inter', sans-serif; padding: 40px; color: #111827; background: white;">
+                    <div style="text-align: center; margin-bottom: 40px; border-bottom: 3px solid #10b981; padding-bottom: 20px;">
+                        <h1 style="font-size: 28px; margin: 0; color: #10b981;">EduTrain</h1>
+                        <h2 style="font-size: 22px; margin: 10px 0 0 0; color: #374151;">${title}</h2>
+                        <p style="color: #6b7280; font-size: 14px; margin-top: 5px;">Jadwal Pelatihan Tahunan - EduTrain Indonesia</p>
+                    </div>
+            `;
+
+            data.months.forEach((month, index) => {
+                htmlContent += `
+                    <div style="margin-bottom: 30px; page-break-inside: avoid;">
+                        <h3 style="font-size: 18px; color: #111827; margin-bottom: 15px; background: #f9fafb; padding: 10px 15px; border-radius: 8px; border-left: 5px solid #10b981;">
+                            ${index + 1}. ${month.name}
+                        </h3>
+                        <div style="display: grid; grid-template-cols: 1fr 1fr; gap: 15px;">
+                `;
+
+                month.trainings.forEach(training => {
+                    htmlContent += `
+                        <div style="padding: 12px; border: 1px solid #e5e7eb; border-radius: 8px; background: #ffffff;">
+                            <div style="font-weight: 600; font-size: 14px; color: #111827; margin-bottom: 4px;">${training.name}</div>
+                            <div style="font-size: 12px; color: #6b7280; display: flex; align-items: center;">
+                                <span style="display: inline-block; width: 10px; height: 10px; background: #10b981; border-radius: 50%; margin-right: 6px;"></span>
+                                Durasi: ${training.duration}
+                            </div>
+                        </div>
+                    `;
+                });
+
+                htmlContent += `
+                        </div>
+                    </div>
+                `;
+            });
+
+            htmlContent += `
+                    <div style="margin-top: 50px; text-align: center; font-size: 12px; color: #9ca3af; border-top: 1px solid #e5e7eb; padding-top: 20px;">
+                        &copy; 2024 EduTrain Indonesia. Seluruh hak cipta dilindungi.
+                    </div>
+                </div>
+            `;
+
+            // Setup Iframe for isolated rendering
+            const iframe = document.createElement('iframe');
+            iframe.style.position = 'fixed';
+            iframe.style.left = '-9999px';
+            iframe.style.top = '-9999px';
+            iframe.style.visibility = 'hidden';
+            iframe.style.pointerEvents = 'none';
+            document.body.appendChild(iframe);
+
+            const iframeDoc = iframe.contentWindow.document;
+            iframeDoc.open();
+            iframeDoc.write(`
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+                    <style>
+                        body { margin: 0; padding: 0; }
+                    </style>
+                </head>
+                <body>
+                    <div id="capture-area">${htmlContent}</div>
+                </body>
+                </html>
+            `);
+            iframeDoc.close();
+
+            // Options for html2pdf
+            const opt = {
+                margin: [10, 10, 10, 10],
+                filename: `${title}.pdf`,
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: {
+                    scale: 2,
+                    useCORS: true,
+                    letterRendering: true,
+                    backgroundColor: '#ffffff',
+                    scrollY: 0,
+                    scrollX: 0
+                },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+                pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
+            };
+
+            // Generate PDF after a small delay to ensure fonts/layout are ready
+            setTimeout(() => {
+                const element = iframeDoc.getElementById('capture-area');
+                html2pdf().from(element).set(opt).save().then(() => {
+                    document.body.removeChild(iframe);
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                }).catch(err => {
+                    console.error("PDF Generation Error:", err);
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                    document.body.removeChild(iframe);
+                });
+            }, 500);
+        }
+
+    </script>
+</body>
+
+</html>
