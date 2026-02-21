@@ -272,7 +272,14 @@ function openContentModal(monthIndex, trainingIndex) {
 
     materiText.innerHTML = training.materi || "Materi untuk pelatihan ini sedang dalam tahap penyusunan. Harap cek kembali secara berkala untuk mendapatkan materi lengkap, panduan, dan sumber daya pendukung lainnya yang berkaitan dengan topik ini.";
 
-    pdfDownloadBtn.href = training.pdf_path || "#";
+    // Build correct PDF URL: if pdf_path is a bare Google Drive file ID, wrap it in the export URL
+    const rawPdf = training.pdf_path;
+    if (rawPdf && !rawPdf.startsWith('http') && !rawPdf.includes('/')) {
+        // Bare Google Drive file ID → build download URL
+        pdfDownloadBtn.href = `https://drive.google.com/uc?export=download&id=${rawPdf}`;
+    } else {
+        pdfDownloadBtn.href = rawPdf || "#";
+    }
 
     contentModal.classList.remove('hidden');
     document.body.style.overflow = 'hidden';
@@ -432,4 +439,3 @@ if (registrationForm) {
         }, 1500);
     });
 }
-
