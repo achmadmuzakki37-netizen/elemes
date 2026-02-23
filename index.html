@@ -5,7 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GESIT</title>
-    <link rel="icon" type="image/x-icon" href="img/pgri.ico">
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Fonts -->
@@ -21,10 +20,63 @@
 
     <!-- Supabase Library -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <!-- App Scripts -->
     <script src="js/app.js"></script>
     <script src="js/supabase-config.js"></script>
+
+    <style>
+        /* SweetAlert2 Custom Styling */
+        .swal2-popup {
+            border-radius: 1.25rem !important;
+            padding: 2rem !important;
+        }
+
+        .dark .swal2-popup {
+            background: #1f2937 !important;
+            /* gray-800 */
+            color: #f3f4f6 !important;
+            /* gray-100 */
+            border: 1px solid #374151 !important;
+            /* gray-700 */
+        }
+
+        .swal2-title {
+            font-weight: 700 !important;
+        }
+
+        .dark .swal2-title,
+        .dark .swal2-html-container {
+            color: #f3f4f6 !important;
+        }
+
+        .swal2-confirm {
+            background-color: #10b981 !important;
+            /* emerald-500 */
+            border-radius: 0.75rem !important;
+            padding: 0.75rem 1.5rem !important;
+            font-weight: 600 !important;
+        }
+
+        .swal2-confirm:focus {
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.5) !important;
+        }
+
+        .swal2-icon.swal2-success {
+            border-color: #10b981 !important;
+            color: #10b981 !important;
+        }
+
+        .swal2-icon.swal2-success [class^=swal2-success-line] {
+            background-color: #10b981 !important;
+        }
+
+        .swal2-icon.swal2-success .swal2-success-ring {
+            border: .25em solid rgba(16, 185, 129, .3) !important;
+        }
+    </style>
 </head>
 
 <body
@@ -78,249 +130,615 @@
         </div>
     </header>
 
-    <!-- Hero Section -->
-    <section class="relative pt-20 pb-24 md:pt-32 md:pb-36 overflow-hidden">
-        <div class="absolute inset-0 z-0 opacity-30 dark:opacity-20 pointer-events-none">
-            <div
-                class="absolute -top-24 -right-24 w-96 h-96 rounded-full bg-primary-100 blur-3xl dark:bg-primary-900/30">
-            </div>
-            <div
-                class="absolute top-1/2 left-0 w-72 h-72 rounded-full bg-secondary-100 blur-3xl dark:bg-secondary-900/20">
-            </div>
-        </div>
+    <!-- ============================================================ -->
+    <!-- LANDING PAGE -->
+    <!-- ============================================================ -->
+    <div id="landingPage">
 
-        <div class="container mx-auto px-4 text-center relative z-10">
-            <span
-                class="inline-block py-1 px-3 rounded-full bg-primary-50 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400 text-sm font-semibold mb-6 border border-primary-100 dark:border-primary-800">
-                LMS untuk Pengembangan Guru
-            </span>
-            <h1
-                class="text-4xl md:text-6xl font-extrabold tracking-tight mb-6 leading-tight text-gray-900 dark:text-white">
-                Belajar, Berkembang, dan <span
-                    class="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-emerald-400">Mengajar</span>
-                <br class="hidden md:block" /> Lebih Baik
-            </h1>
-            <p class="text-lg md:text-xl text-gray-600 dark:text-gray-300 mb-10 max-w-2xl mx-auto leading-relaxed">
-                Tingkatkan kompetensi mengajar Anda dengan kurikulum terstruktur yang dirancang khusus untuk setiap
-                jenjang pendidikan.
-            </p>
-            <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                <a href="#courses"
-                    class="inline-flex items-center justify-center px-8 py-3.5 text-base font-medium text-white bg-primary-600 hover:bg-primary-700 rounded-xl shadow-lg hover:shadow-primary-500/30 transition-all duration-300 transform hover:-translate-y-1">
-                    Mulai Belajar
-                    <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
-                    </svg>
-                </a>
-                <button onclick="openInfoModal()"
-                    class="inline-flex items-center justify-center px-8 py-3.5 text-base font-medium text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-xl transition-all duration-300 shadow-sm hover:shadow-md">
-                    Pelajari Lebih Lanjut
-                </button>
-            </div>
-        </div>
-    </section>
-
-    <!-- Main Course Section -->
-    <section id="courses" class="py-20 bg-gray-50 dark:bg-gray-800/50 transition-colors duration-300">
-        <div class="container mx-auto px-4">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl md:text-4xl font-bold mb-4 text-gray-900 dark:text-white">Pilih Jenjang Pendidikan
-                </h2>
-                <div class="w-24 h-1.5 bg-primary-500 mx-auto rounded-full mb-6"></div>
-                <p class="text-gray-600 dark:text-gray-400 max-w-xl mx-auto">
-                    Program pelatihan yang disesuaikan dengan kebutuhan spesifik di setiap tingkatan pendidikan.
-                </p>
-            </div>
-
-            <!-- Grid 2x2 -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 max-w-5xl mx-auto">
-
-                <!-- Card TK/PAUD -->
-                <div onclick="openModal('tk')"
-                    class="group cursor-pointer relative overflow-hidden isolate rounded-2xl shadow-xl hover:shadow-2xl hover:shadow-primary-500/10 transition-all duration-300 border border-gray-100 dark:border-gray-700 transform hover:-translate-y-2">
-                    <!-- Background Image -->
-                    <img src="img/tk.jpg" alt="TK Background"
-                        class="absolute inset-0 -z-20 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
-                    <!-- Overlay -->
-                    <div class="absolute inset-0 -z-10 bg-gray-900/70"></div>
-
-                    <div class="h-2 bg-gradient-to-r from-pink-400 to-rose-500 relative z-10"></div>
-                    <div class="p-8 relative z-10">
-                        <div
-                            class="w-14 h-14 rounded-xl bg-white/20 backdrop-blur-sm text-white flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-                            <svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
-                        </div>
-                        <h3 class="text-2xl font-bold text-white mb-2 group-hover:text-primary-400 transition-colors">
-                            TK / PAUD</h3>
-                        <p class="text-gray-200 mb-6">Pelatihan tingkat TK/PAUD dengan pendekatan
-                            Montessori dan bermain sambil belajar.</p>
-                        <div
-                            class="flex items-center text-secondary-400 font-medium font-sm group-hover:translate-x-2 transition-transform duration-300">
-                            Lihat Jadwal Pelatihan
-                            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7">
-                                </path>
-                            </svg>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Card SD -->
-                <div onclick="openModal('sd')"
-                    class="group cursor-pointer relative overflow-hidden isolate rounded-2xl shadow-xl hover:shadow-2xl hover:shadow-primary-500/10 transition-all duration-300 border border-gray-100 dark:border-gray-700 transform hover:-translate-y-2">
-                    <!-- Background Image -->
-                    <img src="img/sd.jpg" alt="SD Background"
-                        class="absolute inset-0 -z-20 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
-                    <!-- Overlay -->
-                    <div class="absolute inset-0 -z-10 bg-gray-900/70"></div>
-
-                    <div class="h-2 bg-gradient-to-r from-sky-400 to-blue-500 relative z-10"></div>
-                    <div class="p-8 relative z-10">
-                        <div
-                            class="w-14 h-14 rounded-xl bg-white/20 backdrop-blur-sm text-white flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-                            <svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                            </svg>
-                        </div>
-                        <h3 class="text-2xl font-bold text-white mb-2 group-hover:text-primary-400 transition-colors">
-                            Sekolah Dasar (SD)</h3>
-                        <p class="text-gray-200 mb-6">Pelatihan tingkat SD fokus pada literasi,
-                            numerasi, dan pembentukan karakter dasar.</p>
-                        <div
-                            class="flex items-center text-secondary-400 font-medium font-sm group-hover:translate-x-2 transition-transform duration-300">
-                            Lihat Jadwal Pelatihan
-                            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7">
-                                </path>
-                            </svg>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Card SMP -->
-                <div onclick="openModal('smp')"
-                    class="group cursor-pointer relative overflow-hidden isolate rounded-2xl shadow-xl hover:shadow-2xl hover:shadow-primary-500/10 transition-all duration-300 border border-gray-100 dark:border-gray-700 transform hover:-translate-y-2">
-                    <!-- Background Image -->
-                    <img src="img/smp.jpg" alt="SMP Background"
-                        class="absolute inset-0 -z-20 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
-                    <!-- Overlay -->
-                    <div class="absolute inset-0 -z-10 bg-gray-900/70"></div>
-
-                    <div class="h-2 bg-gradient-to-r from-emerald-400 to-green-500 relative z-10"></div>
-                    <div class="p-8 relative z-10">
-                        <div
-                            class="w-14 h-14 rounded-xl bg-white/20 backdrop-blur-sm text-white flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-                            <svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-                            </svg>
-                        </div>
-                        <h3 class="text-2xl font-bold text-white mb-2 group-hover:text-primary-400 transition-colors">
-                            SMP</h3>
-                        <p class="text-gray-200 mb-6">Pelatihan tingkat SMP dengan fokus pada
-                            pengembangan logika, sains, dan kreativitas.</p>
-                        <div
-                            class="flex items-center text-secondary-400 font-medium font-sm group-hover:translate-x-2 transition-transform duration-300">
-                            Lihat Jadwal Pelatihan
-                            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7">
-                                </path>
-                            </svg>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Card SMA/SMK -->
-                <div onclick="openModal('sma')"
-                    class="group cursor-pointer relative overflow-hidden isolate rounded-2xl shadow-xl hover:shadow-2xl hover:shadow-primary-500/10 transition-all duration-300 border border-gray-100 dark:border-gray-700 transform hover:-translate-y-2">
-                    <!-- Background Image -->
-                    <img src="img/sma.jpg" alt="SMA Background"
-                        class="absolute inset-0 -z-20 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
-                    <!-- Overlay -->
-                    <div class="absolute inset-0 -z-10 bg-gray-900/70"></div>
-
-                    <div class="h-2 bg-gradient-to-r from-amber-400 to-orange-500 relative z-10"></div>
-                    <div class="p-8 relative z-10">
-                        <div
-                            class="w-14 h-14 rounded-xl bg-white/20 backdrop-blur-sm text-white flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-                            <svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                            </svg>
-                        </div>
-                        <h3 class="text-2xl font-bold text-white mb-2 group-hover:text-primary-400 transition-colors">
-                            SMA / SMK</h3>
-                        <p class="text-gray-200 mb-6">Pelatihan tingkat SMA/SMK persiapan karir,
-                            teknologi industri, dan manajemen.</p>
-                        <div
-                            class="flex items-center text-secondary-400 font-medium font-sm group-hover:translate-x-2 transition-transform duration-300">
-                            Lihat Jadwal Pelatihan
-                            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7">
-                                </path>
-                            </svg>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-    <!-- Modal Section -->
-    <div id="courseModal" class="fixed inset-0 z-50 hidden overflow-y-auto" aria-labelledby="modal-title" role="dialog"
-        aria-modal="true">
-        <!-- Backdrop -->
-        <div onclick="closeModal()" class="fixed inset-0 bg-gray-900 bg-opacity-75 transition-opacity backdrop-blur-sm">
-        </div>
-
-        <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
-            <div
-                class="relative transform overflow-hidden rounded-2xl bg-white dark:bg-gray-800 text-left shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-4xl border border-gray-100 dark:border-gray-700">
-
-                <!-- Modal Header -->
+        <!-- Hero Section -->
+        <section class="relative pt-20 pb-24 md:pt-32 md:pb-36 overflow-hidden">
+            <div class="absolute inset-0 z-0 opacity-30 dark:opacity-20 pointer-events-none">
                 <div
-                    class="bg-gray-50 dark:bg-gray-800/80 px-4 py-5 sm:px-6 border-b border-gray-100 dark:border-gray-700 flex justify-between items-center sticky top-0 z-10 backdrop-blur-md">
-                    <div>
-                        <h3 id="modalTitle" class="text-2xl font-bold leading-6 text-gray-900 dark:text-white">
-                            Loading...</h3>
-                        <p id="modalSubtitle" class="mt-1 max-w-2xl text-sm text-gray-500 dark:text-gray-400">Jadwal
-                            Pelatihan Tahunan</p>
+                    class="absolute -top-24 -right-24 w-96 h-96 rounded-full bg-primary-100 blur-3xl dark:bg-primary-900/30">
+                </div>
+                <div
+                    class="absolute top-1/2 left-0 w-72 h-72 rounded-full bg-secondary-100 blur-3xl dark:bg-secondary-900/20">
+                </div>
+            </div>
+
+            <div class="container mx-auto px-4 text-center relative z-10">
+                <span
+                    class="inline-block py-1 px-3 rounded-full bg-primary-50 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400 text-sm font-semibold mb-6 border border-primary-100 dark:border-primary-800">
+                    LMS untuk Pengembangan Guru
+                </span>
+                <h1
+                    class="text-4xl md:text-6xl font-extrabold tracking-tight mb-6 leading-tight text-gray-900 dark:text-white">
+                    Belajar, Berkembang, dan <span
+                        class="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-emerald-400">Mengajar</span>
+                    <br class="hidden md:block" /> Lebih Baik
+                </h1>
+                <p class="text-lg md:text-xl text-gray-600 dark:text-gray-300 mb-10 max-w-2xl mx-auto leading-relaxed">
+                    Tingkatkan kompetensi mengajar Anda dengan kurikulum terstruktur yang dirancang khusus untuk setiap
+                    jenjang pendidikan.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <a href="#courses"
+                        class="inline-flex items-center justify-center px-8 py-3.5 text-base font-medium text-white bg-primary-600 hover:bg-primary-700 rounded-xl shadow-lg hover:shadow-primary-500/30 transition-all duration-300 transform hover:-translate-y-1">
+                        Mulai Belajar
+                        <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+                        </svg>
+                    </a>
+                    <button onclick="openInfoModal()"
+                        class="inline-flex items-center justify-center px-8 py-3.5 text-base font-medium text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-xl transition-all duration-300 shadow-sm hover:shadow-md">
+                        Pelajari Lebih Lanjut
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Main Course Section -->
+        <section id="courses" class="py-20 bg-gray-50 dark:bg-gray-800/50 transition-colors duration-300">
+            <div class="container mx-auto px-4">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-4 text-gray-900 dark:text-white">Pilih Jenjang
+                        Pendidikan
+                    </h2>
+                    <div class="w-24 h-1.5 bg-primary-500 mx-auto rounded-full mb-6"></div>
+                    <p class="text-gray-600 dark:text-gray-400 max-w-xl mx-auto">
+                        Program pelatihan yang disesuaikan dengan kebutuhan spesifik di setiap tingkatan pendidikan.
+                    </p>
+                </div>
+
+                <!-- Grid 2x2 -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 max-w-5xl mx-auto">
+
+                    <!-- Card TK/PAUD -->
+                    <div onclick="navigateToSchedule('tk')"
+                        class="group cursor-pointer relative overflow-hidden isolate rounded-2xl shadow-xl hover:shadow-2xl hover:shadow-primary-500/10 transition-all duration-300 border border-gray-100 dark:border-gray-700 transform hover:-translate-y-2">
+                        <!-- Background Image -->
+                        <img src="img/tk.jpg" alt="TK Background"
+                            class="absolute inset-0 -z-20 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+                        <!-- Overlay -->
+                        <div class="absolute inset-0 -z-10 bg-gray-900/70"></div>
+
+                        <div class="h-2 bg-gradient-to-r from-pink-400 to-rose-500 relative z-10"></div>
+                        <div class="p-8 relative z-10">
+                            <div
+                                class="w-14 h-14 rounded-xl bg-white/20 backdrop-blur-sm text-white flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                                <svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                            </div>
+                            <h3
+                                class="text-2xl font-bold text-white mb-2 group-hover:text-primary-400 transition-colors">
+                                TK / PAUD</h3>
+                            <p class="text-gray-200 mb-6">Pelatihan tingkat TK/PAUD dengan pendekatan
+                                Montessori dan bermain sambil belajar.</p>
+                            <div
+                                class="flex items-center text-secondary-400 font-medium font-sm group-hover:translate-x-2 transition-transform duration-300">
+                                Lihat Jadwal Pelatihan
+                                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M9 5l7 7-7 7">
+                                    </path>
+                                </svg>
+                            </div>
+                        </div>
                     </div>
-                    <button type="button" onclick="closeModal()"
-                        class="rounded-full p-2 bg-gray-100 dark:bg-gray-700 text-gray-400 hover:text-gray-500 dark:hover:text-gray-300 focus:outline-none focus:ring-2 focus:ring-primary-500">
-                        <span class="sr-only">Close</span>
-                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                            aria-hidden="true">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+
+                    <!-- Card SD -->
+                    <div onclick="navigateToSchedule('sd')"
+                        class="group cursor-pointer relative overflow-hidden isolate rounded-2xl shadow-xl hover:shadow-2xl hover:shadow-primary-500/10 transition-all duration-300 border border-gray-100 dark:border-gray-700 transform hover:-translate-y-2">
+                        <!-- Background Image -->
+                        <img src="img/sd.jpg" alt="SD Background"
+                            class="absolute inset-0 -z-20 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+                        <!-- Overlay -->
+                        <div class="absolute inset-0 -z-10 bg-gray-900/70"></div>
+
+                        <div class="h-2 bg-gradient-to-r from-sky-400 to-blue-500 relative z-10"></div>
+                        <div class="p-8 relative z-10">
+                            <div
+                                class="w-14 h-14 rounded-xl bg-white/20 backdrop-blur-sm text-white flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                                <svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                                </svg>
+                            </div>
+                            <h3
+                                class="text-2xl font-bold text-white mb-2 group-hover:text-primary-400 transition-colors">
+                                Sekolah Dasar (SD)</h3>
+                            <p class="text-gray-200 mb-6">Pelatihan tingkat SD fokus pada literasi,
+                                numerasi, dan pembentukan karakter dasar.</p>
+                            <div
+                                class="flex items-center text-secondary-400 font-medium font-sm group-hover:translate-x-2 transition-transform duration-300">
+                                Lihat Jadwal Pelatihan
+                                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M9 5l7 7-7 7">
+                                    </path>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card SMP -->
+                    <div onclick="navigateToSchedule('smp')"
+                        class="group cursor-pointer relative overflow-hidden isolate rounded-2xl shadow-xl hover:shadow-2xl hover:shadow-primary-500/10 transition-all duration-300 border border-gray-100 dark:border-gray-700 transform hover:-translate-y-2">
+                        <!-- Background Image -->
+                        <img src="img/smp.jpg" alt="SMP Background"
+                            class="absolute inset-0 -z-20 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+                        <!-- Overlay -->
+                        <div class="absolute inset-0 -z-10 bg-gray-900/70"></div>
+
+                        <div class="h-2 bg-gradient-to-r from-emerald-400 to-green-500 relative z-10"></div>
+                        <div class="p-8 relative z-10">
+                            <div
+                                class="w-14 h-14 rounded-xl bg-white/20 backdrop-blur-sm text-white flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                                <svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                                </svg>
+                            </div>
+                            <h3
+                                class="text-2xl font-bold text-white mb-2 group-hover:text-primary-400 transition-colors">
+                                SMP</h3>
+                            <p class="text-gray-200 mb-6">Pelatihan tingkat SMP dengan fokus pada
+                                pengembangan logika, sains, dan kreativitas.</p>
+                            <div
+                                class="flex items-center text-secondary-400 font-medium font-sm group-hover:translate-x-2 transition-transform duration-300">
+                                Lihat Jadwal Pelatihan
+                                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M9 5l7 7-7 7">
+                                    </path>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card SMA/SMK -->
+                    <div onclick="navigateToSchedule('sma')"
+                        class="group cursor-pointer relative overflow-hidden isolate rounded-2xl shadow-xl hover:shadow-2xl hover:shadow-primary-500/10 transition-all duration-300 border border-gray-100 dark:border-gray-700 transform hover:-translate-y-2">
+                        <!-- Background Image -->
+                        <img src="img/sma.jpg" alt="SMA Background"
+                            class="absolute inset-0 -z-20 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+                        <!-- Overlay -->
+                        <div class="absolute inset-0 -z-10 bg-gray-900/70"></div>
+
+                        <div class="h-2 bg-gradient-to-r from-amber-400 to-orange-500 relative z-10"></div>
+                        <div class="p-8 relative z-10">
+                            <div
+                                class="w-14 h-14 rounded-xl bg-white/20 backdrop-blur-sm text-white flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                                <svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                                </svg>
+                            </div>
+                            <h3
+                                class="text-2xl font-bold text-white mb-2 group-hover:text-primary-400 transition-colors">
+                                SMA / SMK</h3>
+                            <p class="text-gray-200 mb-6">Pelatihan tingkat SMA/SMK persiapan karir,
+                                teknologi industri, dan manajemen.</p>
+                            <div
+                                class="flex items-center text-secondary-400 font-medium font-sm group-hover:translate-x-2 transition-transform duration-300">
+                                Lihat Jadwal Pelatihan
+                                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M9 5l7 7-7 7">
+                                    </path>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+    </div>
+    <!-- end #landingPage (hero + courses section) -->
+
+    <!-- ============================================================ -->
+    <!-- SCHEDULE PAGE (full-page, hidden by default) -->
+    <!-- ============================================================ -->
+    <div id="schedulePage"
+        class="hidden min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300 page-section">
+
+        <!-- Schedule Page Header -->
+        <div
+            class="sticky top-[63px] z-30 bg-white/90 dark:bg-gray-900/90 backdrop-blur-md border-b border-gray-200 dark:border-gray-800 shadow-sm">
+            <div class="container mx-auto px-4 md:px-6 py-3">
+                <!-- Breadcrumb -->
+                <nav aria-label="Breadcrumb" class="flex items-center gap-1.5 text-sm">
+                    <button onclick="navigateHome()"
+                        class="flex items-center gap-1 text-gray-500 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors cursor-pointer">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6">
+                            </path>
+                        </svg>
+                        Beranda
+                    </button>
+                    <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7">
+                        </path>
+                    </svg>
+                    <span id="scheduleBreadcrumb" class="font-semibold text-gray-900 dark:text-white">Jadwal
+                        Pelatihan</span>
+                </nav>
+            </div>
+        </div>
+
+        <!-- Schedule Hero Banner -->
+        <div id="scheduleHero" class="relative overflow-hidden py-12 md:py-16">
+            <div class="absolute inset-0 opacity-10 dark:opacity-20 pointer-events-none" id="scheduleHeroBg"></div>
+            <div class="container mx-auto px-4 md:px-6 relative z-10">
+                <div class="flex items-center gap-4 mb-4">
+                    <div id="scheduleHeroIcon"
+                        class="w-16 h-16 rounded-2xl flex items-center justify-center text-white shadow-xl flex-shrink-0">
+                    </div>
+                    <div>
+                        <h1 id="scheduleHeroTitle"
+                            class="text-3xl md:text-4xl font-extrabold text-gray-900 dark:text-white">Jadwal
+                            Pelatihan
+                        </h1>
+                        <p id="scheduleHeroSub" class="text-gray-500 dark:text-gray-400 mt-1">Program pelatihan
+                            tahunan
+                        </p>
+                    </div>
+                </div>
+                <div class="flex flex-wrap gap-3 mt-6">
+                    <button onclick="downloadPDF()"
+                        class="inline-flex items-center gap-2 px-4 py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-sm font-medium text-gray-700 dark:text-gray-300 hover:border-primary-400 hover:text-primary-600 dark:hover:text-primary-400 transition-all shadow-sm cursor-pointer">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                        </svg>
+                        Unduh Jadwal PDF
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Schedule Months Content -->
+        <div class="container mx-auto px-4 md:px-6 pb-16">
+            <div id="monthsContainer" class="space-y-4">
+                <!-- Months injected by JS -->
+            </div>
+        </div>
+    </div>
+    <!-- end #schedulePage -->
+
+    <!-- ============================================================ -->
+    <!-- DETAIL PAGE (full-page, hidden by default) -->
+    <!-- ============================================================ -->
+    <div id="detailPage"
+        class="hidden min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300 page-section">
+
+        <!-- Detail Page Header -->
+        <div
+            class="sticky top-[63px] z-30 bg-white/90 dark:bg-gray-900/90 backdrop-blur-md border-b border-gray-200 dark:border-gray-800 shadow-sm">
+            <div class="container mx-auto px-4 md:px-6 py-3">
+                <!-- Breadcrumb -->
+                <nav aria-label="Breadcrumb" class="flex items-center gap-1.5 text-sm flex-wrap">
+                    <button onclick="navigateHome()"
+                        class="flex items-center gap-1 text-gray-500 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors cursor-pointer">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6">
+                            </path>
+                        </svg>
+                        Beranda
+                    </button>
+                    <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7">
+                        </path>
+                    </svg>
+                    <button id="detailBreadcrumbSchedule" onclick="navigateBack()"
+                        class="text-gray-500 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors cursor-pointer">Jadwal</button>
+                    <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7">
+                        </path>
+                    </svg>
+                    <span id="detailBreadcrumbTitle"
+                        class="font-semibold text-gray-900 dark:text-white truncate max-w-xs">Detail
+                        Pelatihan</span>
+                </nav>
+            </div>
+        </div>
+
+        <!-- Detail Content -->
+        <div class="container mx-auto px-4 md:px-6 py-8">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+
+                <!-- Main Content col-8 -->
+                <div class="lg:col-span-8 space-y-6">
+
+                    <!-- Video -->
+                    <div id="detailVideoContainer"
+                        class="aspect-video w-full bg-black rounded-2xl overflow-hidden shadow-xl"></div>
+
+                    <!-- Title & Meta -->
+                    <div>
+                        <h1 id="detailTitle"
+                            class="text-2xl md:text-3xl font-extrabold text-gray-900 dark:text-white mb-3">Nama
+                            Pelatihan</h1>
+                        <div class="flex flex-wrap items-center gap-3">
+                            <span id="detailDuration"
+                                class="inline-flex items-center gap-1.5 text-sm text-gray-500 dark:text-gray-400">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                                Durasi: 2 Hari
+                            </span>
+                            <span id="detailCategory"
+                                class="px-2.5 py-1 rounded-lg bg-primary-50 dark:bg-primary-900/30 text-primary-700 dark:text-primary-400 text-xs font-semibold">Kategori</span>
+                            <span id="detailMonth"
+                                class="px-2.5 py-1 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 text-xs font-semibold">Bulan</span>
+                            <span id="detailDate"
+                                class="px-2.5 py-1 rounded-lg bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 text-xs font-semibold">Tanggal</span>
+                            <span id="detailTime"
+                                class="px-2.5 py-1 rounded-lg bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 text-xs font-semibold">Waktu</span>
+                            <span id="detailPriceBadge" class="px-2.5 py-1 rounded-lg text-xs font-bold">Gratis</span>
+                        </div>
+                    </div>
+
+                    <!-- Materi -->
+                    <div
+                        class="bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 p-6 shadow-sm">
+                        <h2
+                            class="text-lg font-bold text-gray-900 dark:text-white border-l-4 border-primary-500 pl-3 mb-4">
+                            Materi Pembelajaran</h2>
+                        <div id="detailMateri"
+                            class="text-gray-600 dark:text-gray-300 leading-relaxed space-y-4 prose dark:prose-invert max-w-none">
+                        </div>
+                    </div>
+
+                    <!-- PDF Download -->
+                    <div
+                        class="bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 p-6 shadow-sm">
+                        <h2 class="text-lg font-bold text-gray-900 dark:text-white mb-4">Referensi &amp; Unduhan
+                        </h2>
+                        <a id="detailPdfBtn" href="#" target="_blank"
+                            class="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-primary-600 hover:bg-primary-700 text-white font-semibold transition-colors shadow-lg shadow-primary-500/20 cursor-pointer">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                            </svg>
+                            Unduh Materi PDF
+                        </a>
+                    </div>
+
+                </div>
+
+                <!-- Sidebar col-4 -->
+                <div class="lg:col-span-4">
+                    <div
+                        class="sticky top-32 md:top-40 space-y-4 max-h-[calc(100vh-8rem)] overflow-y-auto pb-4 custom-scrollbar">
+
+                        <!-- Info Card -->
+                        <div
+                            class="bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 p-6 shadow-sm">
+                            <h3 class="text-base font-bold text-gray-900 dark:text-white mb-4">Info Pelatihan</h3>
+                            <div class="space-y-3 text-sm">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-gray-500 dark:text-gray-400">Kategori</span>
+                                    <span id="sidebarCategory"
+                                        class="font-semibold text-gray-800 dark:text-gray-200">-</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-gray-500 dark:text-gray-400">Durasi</span>
+                                    <span id="sidebarDuration"
+                                        class="font-semibold text-gray-800 dark:text-gray-200">-</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-gray-500 dark:text-gray-400">Bulan</span>
+                                    <span id="sidebarMonth"
+                                        class="font-semibold text-gray-800 dark:text-gray-200">-</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-gray-500 dark:text-gray-400">Tanggal</span>
+                                    <span id="sidebarDate"
+                                        class="font-semibold text-gray-800 dark:text-gray-200">-</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-gray-500 dark:text-gray-400">Waktu</span>
+                                    <span id="sidebarTime"
+                                        class="font-semibold text-gray-800 dark:text-gray-200">-</span>
+                                </div>
+                            </div>
+                            <div
+                                class="pt-2 border-t border-gray-100 dark:border-gray-700 mt-3 flex justify-between items-center">
+                                <span class="text-gray-500 dark:text-gray-400">Harga</span>
+                                <span id="sidebarPrice"
+                                    class="font-bold text-lg text-emerald-600 dark:text-emerald-400">Gratis</span>
+                            </div>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div
+                            class="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 p-6 shadow-sm">
+                            <h3 class="text-base font-semibold text-gray-800 dark:text-gray-100 mb-4 tracking-tight">
+                                Aksi Pelatihan
+                            </h3>
+                            <div class="grid grid-cols-2 gap-3">
+                                <!-- Daftar -->
+                                <button id="sidebarRegisterBtn" onclick="openIframeModal('register')"
+                                    class="flex items-center justify-center px-4 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold transition-all shadow-sm hover:shadow-md active:scale-95 disabled:opacity-50 text-sm">
+                                    Daftar
+                                </button>
+                                <!-- Tugas -->
+                                <button id="sidebarAssignmentBtn" onclick="openIframeModal('gas_webapp')"
+                                    class="flex items-center justify-center px-4 py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold transition-all shadow-sm hover:shadow-md active:scale-95 disabled:opacity-50 text-[11px] md:text-xs lg:text-sm text-center leading-tight">
+                                    Tugas & Sertifikat
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    </div>
+    </div>
+    <!-- end #detailPage -->
+
+    <!-- ============================================================ -->
+    <!-- IFRAME MODAL (for Google Forms / external URLs) -->
+    <!-- ============================================================ -->
+    <div id="iframeModal" class="fixed inset-0 z-[80] hidden" role="dialog" aria-modal="true">
+        <!-- Backdrop -->
+        <div onclick="closeIframeModal()" class="absolute inset-0 bg-gray-900/80 backdrop-blur-sm"></div>
+
+        <div class="relative flex flex-col h-full max-w-5xl w-full mx-auto p-4 md:p-6">
+            <div
+                class="flex flex-col h-full bg-white dark:bg-gray-900 rounded-2xl overflow-hidden shadow-2xl border border-gray-200 dark:border-gray-700">
+                <!-- iframe header -->
+                <div
+                    class="flex items-center justify-between px-5 py-4 border-b border-gray-100 dark:border-gray-800 bg-gray-50 dark:bg-gray-800/80 flex-shrink-0">
+                    <div class="flex items-center gap-3">
+                        <div id="iframeModalIcon"
+                            class="w-9 h-9 rounded-lg flex items-center justify-center text-white flex-shrink-0">
+                        </div>
+                        <div>
+                            <h3 id="iframeModalTitle" class="font-bold text-gray-900 dark:text-white text-base">Form
+                            </h3>
+                            <p id="iframeModalSub" class="text-xs text-gray-500 dark:text-gray-400"></p>
+                        </div>
+                    </div>
+                    <button onclick="closeIframeModal()"
+                        class="p-2 rounded-full bg-gray-100 dark:bg-gray-700 text-gray-500 hover:text-gray-800 dark:hover:text-white transition-colors cursor-pointer">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M6 18L18 6M6 6l12 12"></path>
                         </svg>
                     </button>
                 </div>
+                <!-- iframe / native body -->
+                <div class="flex-1 relative overflow-hidden h-full">
+                    <!-- Legacy Iframe View -->
+                    <iframe id="iframeModalFrame" src="" class="absolute inset-0 w-full h-full border-0 hidden"
+                        allowfullscreen></iframe>
 
-                <!-- Modal Body (List of Months) -->
-                <div class="px-4 py-6 sm:px-6 bg-white dark:bg-gray-800 min-h-[50vh]">
-                    <div id="monthsContainer" class="space-y-4">
-                        <!-- Content will be injected by JS -->
+                    <!-- Native UI View (Option B) -->
+                    <div id="nativeModalContent"
+                        class="absolute inset-0 w-full h-full bg-white dark:bg-gray-900 overflow-y-auto hidden">
+                        <div class="max-w-3xl mx-auto px-4 py-8">
+                            <!-- Search Section -->
+                            <div class="mb-8">
+                                <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Cari
+                                    Nama Anda</label>
+                                <div class="relative">
+                                    <input type="text" id="gasSearchInput" placeholder="Ketik nama untuk mencari..."
+                                        class="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 focus:ring-2 focus:ring-primary-500 transition-all">
+                                    <div id="gasSearchResults"
+                                        class="absolute z-50 left-0 right-0 mt-2 bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-xl shadow-xl max-h-60 overflow-y-auto hidden">
+                                        <!-- Results injected by JS -->
+                                    </div>
+                                </div>
+                                <p class="mt-2 text-xs text-gray-500">Nama akan muncul jika Anda sudah mendaftar melalui
+                                    website.</p>
+                            </div>
+
+                            <!-- Selected Participant Status Container -->
+                            <div id="gasStatusContainer" class="space-y-6 hidden">
+                                <!-- Dynamic status cards injected here -->
+                            </div>
+
+                            <!-- Loading Placeholder -->
+                            <div id="gasLoadingPlaceholder"
+                                class="flex flex-col items-center justify-center py-12 hidden">
+                                <div
+                                    class="w-10 h-10 border-4 border-primary-500 border-t-transparent rounded-full animate-spin mb-4">
+                                </div>
+                                <p class="text-gray-500 dark:text-gray-400">Memuat data peserta...</p>
+                            </div>
+                        </div>
                     </div>
-                </div>
 
-                <!-- Modal Footer -->
-                <div
-                    class="bg-gray-50 dark:bg-gray-800 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6 border-t border-gray-100 dark:border-gray-700">
-                    <button type="button" onclick="closeModal()"
-                        class="mt-3 inline-flex w-full justify-center rounded-xl bg-white dark:bg-gray-700 px-3 py-2 text-sm font-semibold text-gray-900 dark:text-white shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-600 hover:bg-gray-50 dark:hover:bg-gray-600 sm:mt-0 sm:w-auto transition-colors">Tutup</button>
-                    <button type="button" onclick="downloadPDF()"
-                        class="mt-3 sm:mt-0 sm:mr-3 inline-flex w-full justify-center rounded-xl bg-primary-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary-500 sm:w-auto transition-colors">Unduh
-                        Jadwal PDF</button>
+                    <!-- Participants List View -->
+                    <div id="participantListView"
+                        class="absolute inset-0 w-full h-full bg-white dark:bg-gray-900 overflow-y-auto hidden">
+                        <div class="max-w-4xl mx-auto px-4 py-8">
+                            <div id="participantListHeader" class="mb-6 flex justify-between items-center text-left">
+                                <h4 class="text-xl font-bold text-gray-900 dark:text-white">Daftar Peserta Terdaftar
+                                </h4>
+                                <span id="participantCount"
+                                    class="px-3 py-1 bg-primary-100 dark:bg-primary-900/40 text-primary-700 dark:text-primary-400 rounded-full text-sm font-bold">0
+                                    Peserta</span>
+                            </div>
+
+                            <div
+                                class="overflow-hidden rounded-2xl border border-gray-200 dark:border-gray-700 shadow-sm bg-white dark:bg-gray-800">
+                                <table class="w-full text-left border-collapse">
+                                    <thead class="bg-gray-50 dark:bg-gray-700/50">
+                                        <tr>
+                                            <th
+                                                class="px-6 py-4 text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                                                No.</th>
+                                            <th
+                                                class="px-6 py-4 text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                                                Nama Peserta</th>
+                                            <th
+                                                class="px-6 py-4 text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                                                Lembaga / Sekolah</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="participantTableBody"
+                                        class="divide-y divide-gray-100 dark:divide-gray-700 text-left">
+                                        <!-- Rows injected by JS -->
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div id="participantListEmpty"
+                                class="hidden flex flex-col items-center justify-center py-20 text-center">
+                                <div
+                                    class="w-20 h-20 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center mb-4">
+                                    <svg class="w-10 h-10 text-gray-400" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                                    </svg>
+                                </div>
+                                <h5 class="text-lg font-bold text-gray-700 dark:text-gray-200">Belum Ada Peserta</h5>
+                                <p class="text-gray-500 dark:text-gray-400 max-w-xs mt-1">Jadilah orang pertama yang
+                                    mendaftar di pelatihan ini!</p>
+                            </div>
+
+                            <div id="participantListLoading"
+                                class="hidden flex flex-col items-center justify-center py-20">
+                                <div
+                                    class="w-12 h-12 border-4 border-primary-500 border-t-transparent rounded-full animate-spin mb-4">
+                                </div>
+                                <p class="text-gray-500 dark:text-gray-400">Memuat daftar peserta...</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="iframeModalPlaceholder"
+                        class="hidden absolute inset-0 flex flex-col items-center justify-center text-center p-8">
+                        <div
+                            class="w-16 h-16 rounded-2xl bg-gray-100 dark:bg-gray-800 flex items-center justify-center mb-4">
+                            <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1">
+                                </path>
+                            </svg>
+                        </div>
+                        <h4 class="text-lg font-bold text-gray-700 dark:text-gray-200 mb-2">URL Belum Tersedia</h4>
+                        <p class="text-gray-500 dark:text-gray-400 text-sm max-w-xs">Link untuk fitur ini belum
+                            dikonfigurasi oleh admin. Silakan hubungi pengelola pelatihan.</p>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+
     <!-- Info Modal -->
     <div id="infoModal" class="fixed inset-0 z-50 hidden overflow-y-auto" aria-labelledby="modal-title" role="dialog"
         aria-modal="true">
@@ -458,7 +876,8 @@
                         <div
                             class="w-10 h-10 bg-primary-600 rounded-lg flex items-center justify-center text-white font-bold text-xl">
                             P</div>
-                        <h3 class="text-xl font-bold leading-6 text-gray-900 dark:text-white">PSLCC Kab.Lumajang</h3>
+                        <h3 class="text-xl font-bold leading-6 text-gray-900 dark:text-white">PSLCC Kab.Lumajang
+                        </h3>
                     </div>
                     <button type="button" onclick="closePSLCCModal()"
                         class="rounded-full p-2 bg-gray-100 dark:bg-gray-700 text-gray-400 hover:text-gray-500 dark:hover:text-gray-300 focus:outline-none focus:ring-2 focus:ring-primary-500">
@@ -474,9 +893,11 @@
                     <div class="mb-8">
                         <h4 class="text-lg font-bold text-gray-900 dark:text-white mb-3">Apa itu PSLCC?</h4>
                         <p class="text-gray-600 dark:text-gray-300 leading-relaxed text-justify">
-                            <strong>PGRI Smart Learning and Character Center (PSLCC)</strong> adalah badan kelengkapan
+                            <strong>PGRI Smart Learning and Character Center (PSLCC)</strong> adalah badan
+                            kelengkapan
                             organisasi PGRI yang berfokus pada pengembangan profesi guru dan pendidikan karakter
-                            berbasis teknologi informasi. PSLCC hadir sebagai jawaban atas tantangan era digital dengan
+                            berbasis teknologi informasi. PSLCC hadir sebagai jawaban atas tantangan era digital
+                            dengan
                             visi memberdayakan pendidik di seluruh penjuru tanah air.
                         </p>
                     </div>
@@ -491,7 +912,8 @@
                                 </svg>
                                 Visi Utama
                             </h5>
-                            <p class="text-sm text-gray-600 dark:text-gray-300">Transformasi guru menjadi orkestrator
+                            <p class="text-sm text-gray-600 dark:text-gray-300">Transformasi guru menjadi
+                                orkestrator
                                 teknologi yang cakap dalam pedagogi siber dan pembangunan karakter.</p>
                         </div>
                         <div
@@ -503,7 +925,8 @@
                                 </svg>
                                 Fokus Kompetensi
                             </h5>
-                            <p class="text-sm text-gray-600 dark:text-gray-300">Literasi Digital, Cyber Pedagogy, Soft
+                            <p class="text-sm text-gray-600 dark:text-gray-300">Literasi Digital, Cyber Pedagogy,
+                                Soft
                                 Skills, dan Integrasi Nilai Pancasila dalam teknologi.</p>
                         </div>
                     </div>
@@ -516,7 +939,8 @@
                                     class="w-6 h-6 rounded-full bg-emerald-100 dark:bg-emerald-900/40 text-emerald-600 dark:text-emerald-400 flex items-center justify-center mr-3 mt-1 flex-shrink-0 text-xs font-bold">
                                     1</div>
                                 <div>
-                                    <span class="font-semibold text-gray-800 dark:text-gray-200">Teacher Professional
+                                    <span class="font-semibold text-gray-800 dark:text-gray-200">Teacher
+                                        Professional
                                         Development</span>
                                     <p class="text-sm text-gray-500 dark:text-gray-400">Workshop berkelanjutan untuk
                                         penguasaan platform edukasi digital kelas dunia.</p>
@@ -529,7 +953,8 @@
                                 <div>
                                     <span class="font-semibold text-gray-800 dark:text-gray-200">Inovasi Cyber
                                         Pedagogy</span>
-                                    <p class="text-sm text-gray-500 dark:text-gray-400">Pemanfaatan AR/VR, Gamifikasi,
+                                    <p class="text-sm text-gray-500 dark:text-gray-400">Pemanfaatan AR/VR,
+                                        Gamifikasi,
                                         dan Coding dalam kurikulum sekolah.</p>
                                 </div>
                             </li>
@@ -540,7 +965,8 @@
                                 <div>
                                     <span class="font-semibold text-gray-800 dark:text-gray-200">Karakter Unggul
                                         Digital</span>
-                                    <p class="text-sm text-gray-500 dark:text-gray-400">Menanamkan etika berinternet dan
+                                    <p class="text-sm text-gray-500 dark:text-gray-400">Menanamkan etika berinternet
+                                        dan
                                         pembentukan profil pelajar Pancasila melalui teknologi.</p>
                                 </div>
                             </li>
@@ -564,241 +990,6 @@
         </div>
     </div>
 
-    <!-- Training Content Modal -->
-    <div id="contentModal" class="fixed inset-0 z-[60] hidden overflow-y-auto" aria-labelledby="modal-title"
-        role="dialog" aria-modal="true">
-        <!-- Backdrop -->
-        <div onclick="closeContentModal()" class="fixed inset-0 bg-gray-900/80 transition-opacity backdrop-blur-sm">
-        </div>
-
-        <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
-            <div
-                class="relative transform overflow-hidden rounded-2xl bg-white dark:bg-gray-800 text-left shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-3xl border border-gray-100 dark:border-gray-700">
-
-                <!-- Close Button (Absolute) -->
-                <button type="button" onclick="closeContentModal()"
-                    class="absolute top-4 right-4 z-20 rounded-full p-2 bg-gray-100/50 dark:bg-gray-700/50 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 transition-colors">
-                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                </button>
-
-                <div class="p-0">
-                    <!-- Video Section (Top) -->
-                    <div id="contentVideoContainer" class="aspect-video w-full bg-black relative">
-                        <!-- YouTube Embed will be here -->
-                    </div>
-
-                    <!-- Scrollable Content Section -->
-                    <div class="p-6 md:p-8 space-y-8 max-h-[60vh] overflow-y-auto custom-scrollbar">
-                        <div>
-                            <h3 id="contentTitle"
-                                class="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-2">
-                                Nama Pelatihan
-                            </h3>
-                            <div class="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400">
-                                <span id="contentDuration" class="flex items-center">
-                                    <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                    </svg>
-                                    Durasi: 2 Hari
-                                </span>
-                                <span id="contentCategory"
-                                    class="px-2 py-0.5 rounded-md bg-primary-50 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400 font-medium">
-                                    TK / PAUD
-                                </span>
-                            </div>
-                        </div>
-
-                        <!-- Materi Teks -->
-                        <div class="prose dark:prose-invert max-w-none">
-                            <h4
-                                class="text-lg font-bold text-gray-900 dark:text-white border-l-4 border-primary-500 pl-3 mb-4">
-                                Materi Pembelajaran</h4>
-                            <div id="materiText" class="text-gray-600 dark:text-gray-300 leading-relaxed space-y-4">
-                                <!-- Materi will be injected here -->
-                            </div>
-                        </div>
-
-                        <!-- Download Section -->
-                        <div class="pt-6 border-t border-gray-100 dark:border-gray-700">
-                            <h4 class="text-lg font-bold text-gray-900 dark:text-white mb-4">Referensi & Unduhan</h4>
-                            <div class="flex flex-wrap gap-4">
-                                <a id="pdfDownloadBtn" href="#" target="_blank"
-                                    class="inline-flex items-center px-5 py-2.5 rounded-xl bg-primary-600 text-white font-semibold hover:bg-primary-700 transition-colors shadow-lg shadow-primary-500/20">
-                                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M12 10v6m0 0l-3-3m3 3l3-3m0 8.5V4a2 2 0 00-2-2H5a2 2 0 00-2 2v18a2 2 0 002 2h14a2 2 0 002-2v-3.5">
-                                        </path>
-                                    </svg>
-                                    Unduh Materi PDF
-                                </a>
-                                <button onclick="closeContentModal()"
-                                    class="inline-flex items-center px-5 py-2.5 rounded-xl border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-300 font-medium hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
-                                    Tutup
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-    <!-- Keunggulan Section -->
-    <section id="advantages" class="py-24 bg-white dark:bg-gray-900 transition-colors duration-300">
-        <div class="container mx-auto px-4">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl md:text-4xl font-bold mb-4 text-gray-900 dark:text-white">Mengapa Memilih GESIT?
-                </h2>
-                <div class="w-24 h-1.5 bg-primary-500 mx-auto rounded-full mb-6"></div>
-                <p class="text-gray-600 dark:text-gray-400 max-w-xl mx-auto">
-                    Kami berkomitmen memberikan pengalaman belajar terbaik bagi para pendidik Indonesia.
-                </p>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8" id="advantages-grid">
-                <!-- Data will be injected or hardcoded here for speed -->
-                <div
-                    class="p-8 rounded-2xl bg-gray-50 dark:bg-gray-800/50 border border-gray-100 dark:border-gray-700 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 group">
-                    <div
-                        class="w-16 h-16 rounded-xl bg-emerald-500 flex items-center justify-center text-white mb-6 shadow-lg shadow-emerald-500/20 group-hover:scale-110 transition-transform">
-                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z">
-                            </path>
-                        </svg>
-                    </div>
-                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">Sertifikat Resmi</h3>
-                    <p class="text-gray-600 dark:text-gray-400 leading-relaxed text-sm">Dapatkan sertifikat resmi yang
-                        diakui oleh dinas pendidikan untuk setiap pelatihan yang diselesaikan.</p>
-                </div>
-
-                <div
-                    class="p-8 rounded-2xl bg-gray-50 dark:bg-gray-800/50 border border-gray-100 dark:border-gray-700 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 group">
-                    <div
-                        class="w-16 h-16 rounded-xl bg-blue-500 flex items-center justify-center text-white mb-6 shadow-lg shadow-blue-500/20 group-hover:scale-110 transition-transform">
-                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z">
-                            </path>
-                        </svg>
-                    </div>
-                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">Mentor Ahli</h3>
-                    <p class="text-gray-600 dark:text-gray-400 leading-relaxed text-sm">Dipandu langsung oleh praktisi
-                        dan akademisi berpengalaman di bidangnya masing-masing.</p>
-                </div>
-
-                <div
-                    class="p-8 rounded-2xl bg-gray-50 dark:bg-gray-800/50 border border-gray-100 dark:border-gray-700 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 group">
-                    <div
-                        class="w-16 h-16 rounded-xl bg-amber-500 flex items-center justify-center text-white mb-6 shadow-lg shadow-amber-500/20 group-hover:scale-110 transition-transform">
-                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                        </svg>
-                    </div>
-                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">Akses Selamanya</h3>
-                    <p class="text-gray-600 dark:text-gray-400 leading-relaxed text-sm">Materi dapat diakses kapan saja
-                        dan di mana saja tanpa batas waktu, bahkan setelah pelatihan selesai.</p>
-                </div>
-
-                <div
-                    class="p-8 rounded-2xl bg-gray-50 dark:bg-gray-800/50 border border-gray-100 dark:border-gray-700 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 group">
-                    <div
-                        class="w-16 h-16 rounded-xl bg-rose-500 flex items-center justify-center text-white mb-6 shadow-lg shadow-rose-500/20 group-hover:scale-110 transition-transform">
-                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M13 10V3L4 14h7v7l9-11h-7z"></path>
-                        </svg>
-                    </div>
-                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">Materi Terupdate</h3>
-                    <p class="text-gray-600 dark:text-gray-400 leading-relaxed text-sm">Kurikulum yang selalu diperbarui
-                        sesuai dengan perkembangan teknologi dan kebijakan pendidikan terbaru.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Testimoni Slider Section -->
-    <section id="testimonials"
-        class="py-24 bg-gray-50 dark:bg-gray-800/50 overflow-hidden relative transition-colors duration-300">
-        <div class="container mx-auto px-4 relative z-10">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl md:text-4xl font-bold mb-4 text-gray-900 dark:text-white">Apa Kata Mereka?</h2>
-                <div class="w-24 h-1.5 bg-primary-500 mx-auto rounded-full mb-6"></div>
-            </div>
-
-            <div class="max-w-4xl mx-auto relative group">
-                <!-- Slider Container -->
-                <div
-                    class="overflow-hidden rounded-3xl bg-white dark:bg-gray-800 shadow-2xl border border-gray-100 dark:border-gray-700">
-                    <div id="testimonial-track" class="testimonial-track flex">
-                        <!-- Slides will be injected by JS -->
-                    </div>
-                </div>
-
-                <!-- Navigation Controls -->
-                <button onclick="prevSlide()"
-                    class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-6 md:-translate-x-12 w-12 h-12 rounded-full bg-white dark:bg-gray-800 shadow-xl border border-gray-100 dark:border-gray-700 flex items-center justify-center text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-all z-20 group-hover:translate-x-0 opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7">
-                        </path>
-                    </svg>
-                </button>
-                <button onclick="nextSlide()"
-                    class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-6 md:translate-x-12 w-12 h-12 rounded-full bg-white dark:bg-gray-800 shadow-xl border border-gray-100 dark:border-gray-700 flex items-center justify-center text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-all z-20 group-hover:translate-x-0 opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                    </svg>
-                </button>
-
-                <!-- Pagination Dots -->
-                <div id="slider-pagination" class="flex justify-center gap-2 mt-10">
-                    <!-- Dots will be injected by JS -->
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Final CTA Section -->
-    <section
-        class="py-24 relative overflow-hidden bg-primary-50 dark:bg-gray-900 border-t border-primary-100 dark:border-gray-800 transition-colors duration-300">
-        <!-- Background Elements -->
-        <div class="absolute inset-0 opacity-20 pointer-events-none">
-            <div class="absolute top-0 right-0 w-96 h-96 bg-primary-400 dark:bg-primary-600 blur-[120px]"></div>
-            <div class="absolute bottom-0 left-0 w-96 h-96 bg-emerald-400 dark:bg-emerald-600 blur-[120px]"></div>
-        </div>
-
-        <div class="container mx-auto px-4 relative z-10 text-center">
-            <div
-                class="max-w-3xl mx-auto glass-effect p-12 rounded-3xl border border-primary-200/50 dark:border-white/10 shadow-2xl shadow-primary-500/10 dark:shadow-none">
-                <h2 class="text-4xl md:text-5xl font-extrabold text-gray-900 dark:text-white mb-6 leading-tight">Siap
-                    Untuk Meningkatkan
-                    <span
-                        class="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-emerald-400">Kompetensi</span>
-                    Anda?
-                </h2>
-                <p class="text-xl text-gray-600 dark:text-gray-400 mb-10 leading-relaxed">Bergabunglah dengan ribuan
-                    pendidik lainnya dan
-                    mulailah perjalanan transformasi mengajar Anda sekarang juga.</p>
-                <button onclick="openRegistrationModal()"
-                    class="inline-flex items-center justify-center px-10 py-4 text-lg font-bold text-white bg-primary-600 hover:bg-primary-500 rounded-2xl shadow-2xl shadow-primary-500/40 transition-all duration-300 transform hover:-translate-y-1 hover:scale-105">
-                    Daftar Sekarang
-                    <svg class="w-6 h-6 ml-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
-                    </svg>
-                </button>
-                <p class="mt-6 text-sm text-gray-500 dark:text-gray-500 italic">Dapatkan akses ke materi contoh secara
-                    GRATIS setelah
-                    mendaftar.</p>
-            </div>
-        </div>
-    </section>
-
     <!-- Registration Modal -->
     <div id="registrationModal" class="fixed inset-0 z-[70] hidden overflow-y-auto" aria-labelledby="modal-title"
         role="dialog" aria-modal="true">
@@ -813,7 +1004,8 @@
                 <div class="px-8 pt-8 pb-4 flex justify-between items-center">
                     <div>
                         <h3 class="text-2xl font-bold text-gray-900 dark:text-white">Formulir Pendaftaran</h3>
-                        <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Lengkapi data diri Anda untuk memulai.
+                        <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Lengkapi data diri Anda untuk
+                            memulai.
                         </p>
                     </div>
                     <button onclick="closeRegistrationModal()"
@@ -829,134 +1021,346 @@
                 <div class="px-8 py-6">
                     <form id="registrationForm" class="space-y-5">
                         <div class="space-y-2">
-                            <label class="text-sm font-semibold text-gray-700 dark:text-gray-300 ml-1">Nama
-                                Lengkap</label>
-                            <input type="text" placeholder="Masukkan nama lengkap" required
+                            <label class="text-sm font-semibold text-gray-700 dark:text-gray-300 ml-1">Nama Lengkap
+                                (Sesuai Sertifikat)</label>
+                            <input type="text" id="regNama" placeholder="Masukkan nama lengkap" required
                                 class="w-full px-5 py-3.5 rounded-xl border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700/50 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500/50 transition-all">
                         </div>
                         <div class="space-y-2">
                             <label class="text-sm font-semibold text-gray-700 dark:text-gray-300 ml-1">Email
                                 Aktif</label>
-                            <input type="email" placeholder="contoh@email.com" required
+                            <input type="email" id="regEmail" placeholder="contoh@email.com" required
                                 class="w-full px-5 py-3.5 rounded-xl border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700/50 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500/50 transition-all">
                         </div>
                         <div class="space-y-2">
-                            <label class="text-sm font-semibold text-gray-700 dark:text-gray-300 ml-1">Unit
+                            <label class="text-sm font-semibold text-gray-700 dark:text-gray-300 ml-1">Asal Lembaga /
                                 Sekolah</label>
-                            <input type="text" placeholder="Nama sekolah Anda" required
+                            <input type="text" id="regLembaga" placeholder="Nama sekolah/instansi" required
                                 class="w-full px-5 py-3.5 rounded-xl border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700/50 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500/50 transition-all">
                         </div>
-                        <div class="pt-4">
-                            <button type="submit"
-                                class="w-full py-4 bg-primary-600 hover:bg-primary-500 text-white font-bold rounded-2xl shadow-xl shadow-primary-500/20 transition-all active:scale-95">
-                                Kirim Pendaftaran
-                            </button>
+                        <div class="space-y-2">
+                            <label class="text-sm font-semibold text-gray-700 dark:text-gray-300 ml-1">Nomor
+                                WhatsApp</label>
+                            <input type="tel" id="regPhone" placeholder="08..." required
+                                class="w-full px-5 py-3.5 rounded-xl border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700/50 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500/50 transition-all">
                         </div>
-                    </form>
-                </div>
 
-                <!-- Modal Footer -->
-                <div class="px-8 pb-8 text-center">
-                    <p class="text-xs text-gray-400">Dengan mendaftar, Anda menyetujui Ketentuan Layanan dan Kebijakan
-                        Privasi kami.</p>
+                        <div id="regErrorMsg"
+                            class="hidden p-3 rounded-lg bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 text-sm font-medium">
+                        </div>
+
+                        <button type="submit" id="regSubmitBtn"
+                            class="w-full py-4 rounded-xl bg-primary-600 text-white font-semibold hover:bg-primary-700 transition-colors shadow-lg shadow-primary-500/30 flex justify-center items-center gap-2">
+                            Kirim Pendaftaran
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                            </svg>
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Footer Section -->
-    <footer class="bg-[#111827] text-slate-300 pt-12 pb-8 transition-colors duration-300">
-        <div class="container mx-auto px-4">
-            <!-- Top Footer Grid -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 mb-10">
-                <!-- Column 1: Brand -->
-                <div class="lg:col-span-5">
-                    <div class="flex items-center gap-3 mb-4">
-                        <div
-                            class="w-10 h-10 bg-primary-600 rounded-lg flex items-center justify-center text-white font-bold text-xl shadow-lg">
-                            G
-                        </div>
-                        <span class="text-2xl font-bold text-white tracking-tight">GESIT</span>
-                    </div>
-                    <p class="text-slate-400 leading-relaxed max-w-sm mb-6 text-sm">
-                        LMS untuk pertumbuhan profesional pendidik Indonesia melalui pembelajaran terstruktur dan
-                        berbasis teknologi.
+    </div>
+    <!-- end schedule/detail/iframe/info/pslcc/registration modals container -->
+
+    <!-- Landing Extra: Keunggulan, Testimonials, CTA -->
+    <!-- Also hidden when navigating to schedule/detail pages -->
+    <div id="landingExtra">
+
+        <!-- Keunggulan Section -->
+        <section id="advantages" class="py-24 bg-white dark:bg-gray-900 transition-colors duration-300">
+            <div class="container mx-auto px-4">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-4 text-gray-900 dark:text-white">Mengapa Memilih GESIT?
+                    </h2>
+                    <div class="w-24 h-1.5 bg-primary-500 mx-auto rounded-full mb-6"></div>
+                    <p class="text-gray-600 dark:text-gray-400 max-w-xl mx-auto">
+                        Kami berkomitmen memberikan pengalaman belajar terbaik bagi para pendidik Indonesia.
                     </p>
-                    <!-- Social Icons -->
-                    <div class="flex items-center gap-4">
-                        <a href="#"
-                            class="w-9 h-9 rounded-full bg-slate-800 flex items-center justify-center text-slate-400 hover:bg-primary-600 hover:text-white transition-all transform hover:-translate-y-1 shadow-md"
-                            aria-label="Facebook">
-                            <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
-                                <path fill-rule="evenodd"
-                                    d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"
-                                    clip-rule="evenodd" />
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8" id="advantages-grid">
+                    <!-- Data will be injected or hardcoded here for speed -->
+                    <div
+                        class="p-8 rounded-2xl bg-gray-50 dark:bg-gray-800/50 border border-gray-100 dark:border-gray-700 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 group">
+                        <div
+                            class="w-16 h-16 rounded-xl bg-emerald-500 flex items-center justify-center text-white mb-6 shadow-lg shadow-emerald-500/20 group-hover:scale-110 transition-transform">
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z">
+                                </path>
                             </svg>
-                        </a>
-                        <a href="#"
-                            class="w-9 h-9 rounded-full bg-slate-800 flex items-center justify-center text-slate-400 hover:bg-primary-600 hover:text-white transition-all transform hover:-translate-y-1 shadow-md"
-                            aria-label="Instagram">
-                            <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
-                                <path fill-rule="evenodd"
-                                    d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.067-.06-1.407-.06-4.123v-.08c0-2.643.013-2.987.06-4.043.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772 4.902 4.902 0 011.772-1.153c.636-.247 1.363-.416 2.427-.465 1.067-.047 1.407-.06 4.123-.06h.08zm0 1.802c-2.41 0-2.71.01-3.66.052-.949.043-1.464.204-1.808.337a3.076 3.076 0 00-1.127.734 3.076 3.076 0 00-.734 1.127c-.134.344-.294.86-.337 1.808-.043.95-.052 1.25-.052 3.66s.009 2.71.052 3.66c.043.949.204 1.464.337 1.808.318.82.936 1.438 1.758 1.758.344.134.86.294 1.808.337.95.043 1.25.052 3.66.052s2.71-.009 3.66-.052c.949-.043 1.464-.204 1.808-.337a3.076 3.076 0 001.127-.734 3.076 3.076 0 00.734-1.127c.134-.344.294-.86.337-1.808.043-.95.052-1.25.052-3.66s-.009-2.71-.052-3.66c-.043-.949-.204-1.464-.337-1.808a3.076 3.076 0 00-1.127-.734 3.076 3.076 0 00-.734-1.127c-.344-.134-.86-.294-1.808-.337-.95-.043-1.25-.052-3.66-.052zm0 4.378a5.22 5.22 0 110 10.44 5.22 5.22 0 010-10.44zM12.315 15.939a3.418 3.418 0 100-6.836 3.418 3.418 0 000 6.836zm6.304-8.89a1.201 1.201 0 110 2.402 1.201 1.201 0 010-2.402z"
-                                    clip-rule="evenodd" />
-                            </svg>
-                        </a>
-                        <a href="#"
-                            class="w-9 h-9 rounded-full bg-slate-800 flex items-center justify-center text-slate-400 hover:bg-primary-600 hover:text-white transition-all transform hover:-translate-y-1 shadow-md"
-                            aria-label="LinkedIn">
-                            <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
-                                <path
-                                    d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
-                            </svg>
-                        </a>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">Sertifikat Resmi</h3>
+                        <p class="text-gray-600 dark:text-gray-400 leading-relaxed text-sm">Dapatkan sertifikat resmi
+                            yang
+                            diakui oleh dinas pendidikan untuk setiap pelatihan yang diselesaikan.</p>
                     </div>
-                </div>
 
-                <!-- Column 2: Platform -->
-                <div class="lg:col-span-3">
-                    <h4 class="text-white font-bold mb-6 text-lg">Platform</h4>
-                    <ul class="space-y-3 text-sm">
-                        <li><a href="#courses" class="hover:text-primary-400 transition-colors">Program</a></li>
-                        <li><a href="#" class="hover:text-primary-400 transition-colors">Kategori Pelatihan</a></li>
-                        <li><a href="#" class="hover:text-primary-400 transition-colors">Jadwal</a></li>
-                        <li><a href="#" class="hover:text-primary-400 transition-colors">Sertifikat</a></li>
-                    </ul>
-                </div>
+                    <div
+                        class="p-8 rounded-2xl bg-gray-50 dark:bg-gray-800/50 border border-gray-100 dark:border-gray-700 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 group">
+                        <div
+                            class="w-16 h-16 rounded-xl bg-blue-500 flex items-center justify-center text-white mb-6 shadow-lg shadow-blue-500/20 group-hover:scale-110 transition-transform">
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z">
+                                </path>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">Mentor Ahli</h3>
+                        <p class="text-gray-600 dark:text-gray-400 leading-relaxed text-sm">Dipandu langsung oleh
+                            praktisi
+                            dan akademisi berpengalaman di bidangnya masing-masing.</p>
+                    </div>
 
-                <!-- Column 3: Dukungan -->
-                <div class="lg:col-span-4">
-                    <h4 class="text-white font-bold mb-6 text-lg">Dukungan</h4>
-                    <ul class="space-y-3 text-sm">
-                        <li><button onclick="openPSLCCModal()" class="hover:text-primary-400 transition-colors">Tentang
-                                Kami</button></li>
-                        <li><a href="#" class="hover:text-primary-400 transition-colors">Kontak</a></li>
-                        <li><a href="#" class="hover:text-primary-400 transition-colors">FAQ</a></li>
-                        <li><a href="#" class="hover:text-primary-400 transition-colors">Kebijakan Privasi</a></li>
-                        <li><a href="#" class="hover:text-primary-400 transition-colors">Syarat & Ketentuan</a></li>
-                    </ul>
+                    <div
+                        class="p-8 rounded-2xl bg-gray-50 dark:bg-gray-800/50 border border-gray-100 dark:border-gray-700 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 group">
+                        <div
+                            class="w-16 h-16 rounded-xl bg-amber-500 flex items-center justify-center text-white mb-6 shadow-lg shadow-amber-500/20 group-hover:scale-110 transition-transform">
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">Akses Selamanya</h3>
+                        <p class="text-gray-600 dark:text-gray-400 leading-relaxed text-sm">Materi dapat diakses kapan
+                            saja
+                            dan di mana saja tanpa batas waktu, bahkan setelah pelatihan selesai.</p>
+                    </div>
+
+                    <div
+                        class="p-8 rounded-2xl bg-gray-50 dark:bg-gray-800/50 border border-gray-100 dark:border-gray-700 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 group">
+                        <div
+                            class="w-16 h-16 rounded-xl bg-rose-500 flex items-center justify-center text-white mb-6 shadow-lg shadow-rose-500/20 group-hover:scale-110 transition-transform">
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">Materi Terupdate</h3>
+                        <p class="text-gray-600 dark:text-gray-400 leading-relaxed text-sm">Kurikulum yang selalu
+                            diperbarui
+                            sesuai dengan perkembangan teknologi dan kebijakan pendidikan terbaru.</p>
+                    </div>
                 </div>
             </div>
+        </section>
 
-            <!-- Bottom Bar (Trust Layer) -->
-            <div class="pt-6 border-t border-slate-800 flex flex-col md:flex-row justify-between items-center gap-6">
-                <div class="text-sm font-medium">
-                    &copy; 2026 <span class="text-white">GESIT</span>. All rights reserved.
+        <!-- Testimoni Slider Section -->
+        <section id="testimonials"
+            class="py-24 bg-primary-50 dark:bg-gray-900 overflow-hidden relative transition-colors duration-300">
+            <!-- Background Elements -->
+            <div class="absolute inset-0 opacity-20 pointer-events-none">
+                <div class="absolute top-0 right-0 w-96 h-96 bg-primary-400 dark:bg-primary-600 blur-[120px]"></div>
+                <div class="absolute bottom-0 left-0 w-96 h-96 bg-emerald-400 dark:bg-emerald-600 blur-[120px]"></div>
+            </div>
+
+            <div class="container mx-auto px-4 relative z-10">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-4 text-gray-900 dark:text-white">Apa Kata Mereka?</h2>
+                    <div class="w-24 h-1.5 bg-primary-500 mx-auto rounded-full mb-6"></div>
                 </div>
-                <div class="flex items-center gap-2 text-sm text-slate-400">
-                    <span>Didukung oleh</span>
-                    <img src="img/pgri.ico" alt="PGRI Logo" class="w-5 h-5 object-contain">
-                    <span class="text-white font-semibold">PSLCC Kab. Lumajang</span>
+
+                <div class="max-w-4xl mx-auto relative group">
+                    <!-- Slider Container -->
+                    <div
+                        class="overflow-hidden rounded-3xl bg-white dark:bg-gray-800 shadow-2xl border border-gray-100 dark:border-gray-700">
+                        <div id="testimonial-track" class="testimonial-track flex">
+                            <!-- Slides will be injected by JS -->
+                        </div>
+                    </div>
+
+                    <!-- Navigation Controls -->
+                    <button onclick="prevSlide()"
+                        class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-6 md:-translate-x-12 w-12 h-12 rounded-full bg-white dark:bg-gray-800 shadow-xl border border-gray-100 dark:border-gray-700 flex items-center justify-center text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-all z-20 group-hover:translate-x-0 opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7">
+                            </path>
+                        </svg>
+                    </button>
+                    <button onclick="nextSlide()"
+                        class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-6 md:translate-x-12 w-12 h-12 rounded-full bg-white dark:bg-gray-800 shadow-xl border border-gray-100 dark:border-gray-700 flex items-center justify-center text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-all z-20 group-hover:translate-x-0 opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7">
+                            </path>
+                        </svg>
+                    </button>
+
+                    <!-- Pagination Dots -->
+                    <div id="slider-pagination" class="flex justify-center gap-2 mt-10">
+                        <!-- Dots will be injected by JS -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Registration Modal -->
+        <div id="registrationModal" class="fixed inset-0 z-[70] hidden overflow-y-auto" aria-labelledby="modal-title"
+            role="dialog" aria-modal="true">
+            <div onclick="closeRegistrationModal()"
+                class="fixed inset-0 bg-gray-900/90 transition-opacity backdrop-blur-md"></div>
+
+            <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
+                <div
+                    class="relative transform overflow-hidden rounded-3xl bg-white dark:bg-gray-800 text-left shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-lg border border-gray-100 dark:border-gray-700">
+
+                    <!-- Modal Header -->
+                    <div class="px-8 pt-8 pb-4 flex justify-between items-center">
+                        <div>
+                            <h3 class="text-2xl font-bold text-gray-900 dark:text-white">Formulir Pendaftaran</h3>
+                            <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Lengkapi data diri Anda untuk
+                                memulai.
+                            </p>
+                        </div>
+                        <button onclick="closeRegistrationModal()"
+                            class="p-2 rounded-full bg-gray-100 dark:bg-gray-700 text-gray-500 hover:text-gray-800 dark:hover:text-white transition-colors">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </button>
+                    </div>
+
+                    <!-- Modal Body -->
+                    <div class="px-8 py-6">
+                        <form id="registrationForm" class="space-y-5">
+                            <div class="space-y-2">
+                                <label class="text-sm font-semibold text-gray-700 dark:text-gray-300 ml-1">Nama
+                                    Lengkap</label>
+                                <input type="text" placeholder="Masukkan nama lengkap" required
+                                    class="w-full px-5 py-3.5 rounded-xl border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700/50 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500/50 transition-all">
+                            </div>
+                            <div class="space-y-2">
+                                <label class="text-sm font-semibold text-gray-700 dark:text-gray-300 ml-1">Email
+                                    Aktif</label>
+                                <input type="email" placeholder="contoh@email.com" required
+                                    class="w-full px-5 py-3.5 rounded-xl border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700/50 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500/50 transition-all">
+                            </div>
+                            <div class="space-y-2">
+                                <label class="text-sm font-semibold text-gray-700 dark:text-gray-300 ml-1">Unit
+                                    Sekolah</label>
+                                <input type="text" placeholder="Nama sekolah Anda" required
+                                    class="w-full px-5 py-3.5 rounded-xl border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700/50 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500/50 transition-all">
+                            </div>
+                            <div class="pt-4">
+                                <button type="submit"
+                                    class="w-full py-4 bg-primary-600 hover:bg-primary-500 text-white font-bold rounded-2xl shadow-xl shadow-primary-500/20 transition-all active:scale-95">
+                                    Kirim Pendaftaran
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Modal Footer -->
+                    <div class="px-8 pb-8 text-center">
+                        <p class="text-xs text-gray-400">Dengan mendaftar, Anda menyetujui Ketentuan Layanan dan
+                            Kebijakan
+                            Privasi kami.</p>
+                    </div>
                 </div>
             </div>
         </div>
-    </footer>
+
+        <!-- Footer Section -->
+        <footer class="bg-[#111827] text-slate-300 pt-12 pb-8 transition-colors duration-300">
+            <div class="container mx-auto px-4">
+                <!-- Top Footer Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 mb-10">
+                    <!-- Column 1: Brand -->
+                    <div class="lg:col-span-5">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div
+                                class="w-10 h-10 bg-primary-600 rounded-lg flex items-center justify-center text-white font-bold text-xl shadow-lg">
+                                G
+                            </div>
+                            <span class="text-2xl font-bold text-white tracking-tight">GESIT</span>
+                        </div>
+                        <p class="text-slate-400 leading-relaxed max-w-sm mb-6 text-sm">
+                            LMS untuk pertumbuhan profesional pendidik Indonesia melalui pembelajaran terstruktur dan
+                            berbasis teknologi.
+                        </p>
+                        <!-- Social Icons -->
+                        <div class="flex items-center gap-4">
+                            <a href="#"
+                                class="w-9 h-9 rounded-full bg-slate-800 flex items-center justify-center text-slate-400 hover:bg-primary-600 hover:text-white transition-all transform hover:-translate-y-1 shadow-md"
+                                aria-label="Facebook">
+                                <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
+                                    <path fill-rule="evenodd"
+                                        d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                            </a>
+                            <a href="#"
+                                class="w-9 h-9 rounded-full bg-slate-800 flex items-center justify-center text-slate-400 hover:bg-primary-600 hover:text-white transition-all transform hover:-translate-y-1 shadow-md"
+                                aria-label="Instagram">
+                                <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
+                                    <path fill-rule="evenodd"
+                                        d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.067-.06-1.407-.06-4.123v-.08c0-2.643.013-2.987.06-4.043.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772 4.902 4.902 0 011.772-1.153c.636-.247 1.363-.416 2.427-.465 1.067-.047 1.407-.06 4.123-.06h.08zm0 1.802c-2.41 0-2.71.01-3.66.052-.949.043-1.464.204-1.808.337a3.076 3.076 0 00-1.127.734 3.076 3.076 0 00-.734 1.127c-.134.344-.294.86-.337 1.808-.043.95-.052 1.25-.052 3.66s.009 2.71.052 3.66c.043.949.204 1.464.337 1.808.318.82.936 1.438 1.758 1.758.344.134.86.294 1.808.337.95.043 1.25.052 3.66.052s2.71-.009 3.66-.052c.949-.043 1.464-.204 1.808-.337a3.076 3.076 0 001.127-.734 3.076 3.076 0 00.734-1.127c.134-.344.294-.86.337-1.808.043-.95.052-1.25.052-3.66s-.009-2.71-.052-3.66c-.043-.949-.204-1.464-.337-1.808a3.076 3.076 0 00-1.127-.734 3.076 3.076 0 00-.734-1.127c-.344-.134-.86-.294-1.808-.337-.95-.043-1.25-.052-3.66-.052zm0 4.378a5.22 5.22 0 110 10.44 5.22 5.22 0 010-10.44zM12.315 15.939a3.418 3.418 0 100-6.836 3.418 3.418 0 000 6.836zm6.304-8.89a1.201 1.201 0 110 2.402 1.201 1.201 0 010-2.402z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                            </a>
+                            <a href="#"
+                                class="w-9 h-9 rounded-full bg-slate-800 flex items-center justify-center text-slate-400 hover:bg-primary-600 hover:text-white transition-all transform hover:-translate-y-1 shadow-md"
+                                aria-label="LinkedIn">
+                                <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
+                                    <path
+                                        d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Column 2: Platform -->
+                    <div class="lg:col-span-3">
+                        <h4 class="text-white font-bold mb-6 text-lg">Platform</h4>
+                        <ul class="space-y-3 text-sm">
+                            <li><a href="#courses" class="hover:text-primary-400 transition-colors">Program</a></li>
+                            <li><a href="#" class="hover:text-primary-400 transition-colors">Kategori Pelatihan</a></li>
+                            <li><a href="#" class="hover:text-primary-400 transition-colors">Jadwal</a></li>
+                            <li><a href="#" class="hover:text-primary-400 transition-colors">Sertifikat</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Column 3: Dukungan -->
+                    <div class="lg:col-span-4">
+                        <h4 class="text-white font-bold mb-6 text-lg">Dukungan</h4>
+                        <ul class="space-y-3 text-sm">
+                            <li><button onclick="openPSLCCModal()"
+                                    class="hover:text-primary-400 transition-colors">Tentang
+                                    Kami</button></li>
+                            <li><a href="#" class="hover:text-primary-400 transition-colors">Kontak</a></li>
+                            <li><a href="#" class="hover:text-primary-400 transition-colors">FAQ</a></li>
+                            <li><a href="#" class="hover:text-primary-400 transition-colors">Kebijakan Privasi</a></li>
+                            <li><a href="#" class="hover:text-primary-400 transition-colors">Syarat & Ketentuan</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Bottom Bar (Trust Layer) -->
+                <div
+                    class="pt-6 border-t border-slate-800 flex flex-col md:flex-row justify-between items-center gap-6">
+                    <div class="text-sm font-medium">
+                        &copy; 2026 <span class="text-white">GESIT</span>. All rights reserved.
+                    </div>
+                    <div class="flex items-center gap-2 text-sm text-slate-400">
+                        <span>Didukung oleh</span>
+                        <img src="img/pgri.ico" alt="PGRI Logo" class="w-5 h-5 object-contain">
+                        <span class="text-white font-semibold">PSLCC Kab. Lumajang</span>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+    </div>
+    <!-- end #landingExtra -->
 
     <!-- JavaScript -->
     <script src="js/data.js"></script>
     <script src="js/main.js"></script>
     <script src="js/modals.js"></script>
 </body>
-
 
 </html>
