@@ -24,7 +24,32 @@
     background: #94a3b8;
 }
 
-/* Slider Styles */
+/* ===================================
+   Page Transitions (SPA Navigation)
+   =================================== */
+.page-section {
+    animation: none;
+}
+
+.page-enter {
+    animation: pageSlideIn 0.35s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes pageSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(16px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ===================================
+   Testimonial Slider
+   =================================== */
 .testimonial-track {
     display: flex;
     transition: transform 0.5s ease-in-out;
@@ -34,6 +59,9 @@
     flex: 0 0 100%;
 }
 
+/* ===================================
+   Animations
+   =================================== */
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -50,13 +78,17 @@
     animation: fadeIn 0.8s ease-out forwards;
 }
 
-/* Custom indicator active state */
+/* ===================================
+   Slider Indicator
+   =================================== */
 .indicator-active {
     background-color: #10b981;
     width: 2rem;
 }
 
-/* Glassmorphism for CTA */
+/* ===================================
+   Glassmorphism (CTA)
+   =================================== */
 .glass-effect {
     background: rgba(255, 255, 255, 0.6);
     backdrop-filter: blur(10px);
@@ -66,4 +98,35 @@
 .dark .glass-effect {
     background: rgba(0, 0, 0, 0.2);
     border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* ===================================
+   Schedule Page: Accordion
+   =================================== */
+#monthsContainer .rotate-180 {
+    transform: rotate(180deg);
+}
+
+/* ===================================
+   Iframe Modal: Full height
+   =================================== */
+#iframeModal {
+    display: none;
+}
+
+#iframeModal:not(.hidden) {
+    display: flex;
+    flex-direction: column;
+}
+
+/* ===================================
+   Detail Page: Aspect video
+   =================================== */
+#detailVideoContainer {
+    position: relative;
+}
+
+#detailVideoContainer>div {
+    position: absolute;
+    inset: 0;
 }
