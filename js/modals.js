@@ -251,45 +251,57 @@ function renderSchedule(data, meta) {
                 </button>`;
 
                 const card = document.createElement('div');
-                card.className = 'group p-5 bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-md transition-all flex flex-col h-full cursor-pointer';
+                card.className = 'group bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-md transition-all flex flex-col h-full cursor-pointer overflow-hidden';
                 card.setAttribute('onclick', `navigateToDetail(${index}, ${tIndex})`);
+
+                const bannerHtml = training.banner_url
+                    ? `<div class="w-full aspect-video bg-gray-200 dark:bg-gray-700 overflow-hidden relative shrink-0">
+                          <img src="${training.banner_url}" alt="${training.name}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy">
+                       </div>`
+                    : `<div class="w-full aspect-video bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800 flex items-center justify-center shrink-0">
+                          <svg class="w-12 h-12 text-gray-300 dark:text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                       </div>`;
+
                 card.innerHTML = `
-                    <div class="flex-1">
-                        <div class="flex items-start justify-between gap-3 mb-3 flex-wrap">
-                            <span class="px-2.5 py-1 rounded-md text-xs font-semibold ${price.className}">${price.text}</span>
-                            <span class="inline-flex items-center gap-1 text-xs text-gray-500 dark:text-gray-400">
-                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                                ${training.duration || '1 Hari'}
-                            </span>
-                        </div>
-                        <div class="text-left w-full group/title mb-4">
-                            <h5 class="font-bold text-gray-900 dark:text-gray-100 group-hover/title:text-primary-600 dark:group-hover/title:text-primary-400 transition-colors text-base line-clamp-2">${training.name}</h5>
+                    ${bannerHtml}
+                    <div class="p-5 flex flex-col flex-1">
+                        <div class="flex-1">
+                            <div class="flex items-start justify-between gap-3 mb-3 flex-wrap">
+                                <span class="px-2.5 py-1 rounded-md text-xs font-semibold ${price.className}">${price.text}</span>
+                                <span class="inline-flex items-center gap-1 text-xs text-gray-500 dark:text-gray-400">
+                                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                    ${training.duration || '1 Hari'}
+                                </span>
+                            </div>
+                            <div class="text-left w-full group/title mb-4">
+                                <h5 class="font-bold text-gray-900 dark:text-gray-100 group-hover/title:text-primary-600 dark:group-hover/title:text-primary-400 transition-colors text-base line-clamp-2">${training.name}</h5>
+                            </div>
+                            
+                            <div class="space-y-2 mb-6">
+                                <div class="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-300">
+                                    <svg class="w-4 h-4 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                                    <span>${training.date || 'Belum Ditentukan'}</span>
+                                </div>
+                                <div class="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-300">
+                                    <svg class="w-4 h-4 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                    <span>${training.time || 'Belum Ditentukan'}</span>
+                                </div>
+                            </div>
                         </div>
                         
-                        <div class="space-y-2 mb-6">
-                            <div class="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-300">
-                                <svg class="w-4 h-4 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-                                <span>${training.date || 'Belum Ditentukan'}</span>
+                        <div class="mt-auto pt-4 border-t border-gray-100 dark:border-gray-700 flex items-center justify-between flex-wrap gap-3">
+                            <div class="flex items-center gap-2 flex-wrap text-left">
+                                ${regBtn}
+                                ${gasBtn}
+                                <button onclick="event.stopPropagation(); openIframeModalWithData(null, 'Daftar Peserta', '${training.name}', 'participants', '${training.id}')" class="inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all bg-indigo-500 dark:bg-indigo-600 text-white dark:text-white hover:bg-indigo-600 dark:hover:bg-indigo-700 cursor-pointer">
+                                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+                                    Peserta
+                                </button>
                             </div>
-                            <div class="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-300">
-                                <svg class="w-4 h-4 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                                <span>${training.time || 'Belum Ditentukan'}</span>
+                            <div class="inline-flex items-center gap-1 text-sm font-semibold text-primary-600 dark:text-primary-400 group-hover:text-primary-700 dark:group-hover:text-primary-300 transition-colors">
+                                Detail
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
                             </div>
-                        </div>
-                    </div>
-                    
-                    <div class="mt-auto pt-4 border-t border-gray-100 dark:border-gray-700 flex items-center justify-between flex-wrap gap-3">
-                        <div class="flex items-center gap-2 flex-wrap text-left">
-                            ${regBtn}
-                            ${gasBtn}
-                            <button onclick="event.stopPropagation(); openIframeModalWithData(null, 'Daftar Peserta', '${training.name}', 'participants', '${training.id}')" class="inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all bg-indigo-500 dark:bg-indigo-600 text-white dark:text-white hover:bg-indigo-600 dark:hover:bg-indigo-700 cursor-pointer">
-                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
-                                Peserta
-                            </button>
-                        </div>
-                        <div class="inline-flex items-center gap-1 text-sm font-semibold text-primary-600 dark:text-primary-400 group-hover:text-primary-700 dark:group-hover:text-primary-300 transition-colors">
-                            Detail
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
                         </div>
                     </div>
                 `;
