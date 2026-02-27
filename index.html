@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GESIT</title>
-    <link rel="icon" type="image/x-icon" href="/img/pgri.ico"> 
+    <link rel="icon" type="image/x-icon" href="/img/pgri.ico">
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Fonts -->
@@ -631,18 +631,25 @@
                         <div class="max-w-3xl mx-auto px-4 py-8">
                             <!-- Search Section -->
                             <div class="mb-8">
-                                <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Cari
-                                    Nama Anda</label>
+                                <div class="flex items-center justify-between mb-2">
+                                    <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300">Cari
+                                        Nama Anda</label>
+                                    <span id="gasDataStatusBadge"
+                                        class="hidden px-2.5 py-1 rounded-full bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-400 text-[10px] font-bold animate-fade-in">
+                                        Data Siap
+                                    </span>
+                                </div>
                                 <div class="relative">
                                     <input type="text" id="gasSearchInput" placeholder="Ketik nama untuk mencari..."
-                                        class="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 focus:ring-2 focus:ring-primary-500 transition-all">
+                                        class="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 focus:ring-2 focus:ring-primary-500 transition-all disabled:opacity-50"
+                                        disabled>
                                     <div id="gasSearchResults"
                                         class="absolute z-50 left-0 right-0 mt-2 bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-xl shadow-xl max-h-60 overflow-y-auto hidden">
                                         <!-- Results injected by JS -->
                                     </div>
                                 </div>
-                                <p class="mt-2 text-xs text-gray-500">Nama akan muncul jika Anda sudah mendaftar melalui
-                                    website.</p>
+                                <p id="gasSearchGuide" class="mt-2 text-xs text-gray-500">Nama akan muncul jika Anda
+                                    sudah mendaftar melalui website.</p>
                             </div>
 
                             <!-- Selected Participant Status Container -->
@@ -1365,4 +1372,3 @@
 </body>
 
 </html>
-
