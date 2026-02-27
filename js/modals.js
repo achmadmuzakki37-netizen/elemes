@@ -530,12 +530,11 @@ let _currentDriveFolderId = '';
 
 async function initNativeGasUI(gasUrl) {
     _currentGasUrl = gasUrl;
-    // Capture training context before it can become null
+    // Capture training context
     if (currentTrainingData) {
         _currentTrainingId = currentTrainingData.id;
         _currentDriveFolderId = currentTrainingData.drive_folder_id || '';
     } else {
-        // Fallback: extract from URL
         try {
             const urlObj = new URL(gasUrl);
             _currentTrainingId = urlObj.searchParams.get('id') || null;
@@ -543,29 +542,95 @@ async function initNativeGasUI(gasUrl) {
             _currentTrainingId = null;
         }
     }
+
     const searchInput = document.getElementById('gasSearchInput');
     const resultsPanel = document.getElementById('gasSearchResults');
     const statusContainer = document.getElementById('gasStatusContainer');
     const loader = document.getElementById('gasLoadingPlaceholder');
+    const dataBadge = document.getElementById('gasDataStatusBadge');
+    const searchGuide = document.getElementById('gasSearchGuide');
 
     // Reset UI
     searchInput.value = '';
+    searchInput.disabled = true;
     resultsPanel.classList.add('hidden');
     statusContainer.classList.add('hidden');
     loader.classList.remove('hidden');
+    if (dataBadge) dataBadge.classList.add('hidden');
+    if (searchGuide) {
+        searchGuide.textContent = 'Menghubungkan ke database Supabase...';
+        searchGuide.className = 'mt-2 text-xs text-gray-400';
+    }
 
     try {
-        // Fetch data from GAS API
-        const response = await fetch(`${gasUrl}&action=getData`);
-        const result = await response.json();
+        // OPTIMIZATION: Fetch directly from Supabase instead of GAS
+        // Joining registrations with assignments to get status
+        const { data, error } = await window.supabaseClient
+            .from('registrations')
+            .select(`
+                id, 
+                nama, 
+                lembaga, 
+                certificate_url, 
+                assignments (
+                    file_url, 
+                    status, 
+                    feedback,
+                    created_at
+                )
+            `)
+            .eq('training_id', _currentTrainingId);
 
-        if (result.success) {
-            _gasParticipantsData = result.data;
-        } else {
-            console.error('GAS Fetch Error:', result.message);
+        if (error) throw error;
+
+        // Map data to expected format for the UI
+        _gasParticipantsData = data.map(reg => {
+            // Get the most recent assignment if exists
+            let latestAsg = null;
+            if (reg.assignments && reg.assignments.length > 0) {
+                latestAsg = [...reg.assignments].sort((a, b) =>
+                    new Date(b.created_at) - new Date(a.created_at)
+                )[0];
+
+                // Compatibility: 'approved' status should be treated as 'valid'
+                if (latestAsg.status === 'approved') {
+                    latestAsg.status = 'valid';
+                }
+            }
+
+            return {
+                id: reg.id,
+                nama: reg.nama,
+                lembaga: reg.lembaga,
+                certificate_url: reg.certificate_url,
+                assignment: latestAsg
+            };
+        });
+
+        // Post-loading Feedback
+        if (dataBadge) {
+            dataBadge.textContent = `${_gasParticipantsData.length} Peserta Terdaftar`;
+            dataBadge.classList.remove('hidden');
         }
+        if (searchGuide) {
+            searchGuide.textContent = '✅ Data peserta berhasil dimuat!. Silakan ketik nama Anda untuk mengecek status.';
+            searchGuide.className = 'mt-2 text-xs font-semibold text-emerald-600 dark:text-emerald-400 animate-pulse';
+        }
+
+        // Enable and focus input
+        searchInput.disabled = false;
+        setTimeout(() => {
+            searchInput.focus();
+            searchInput.classList.add('ring-2', 'ring-emerald-500/50');
+            setTimeout(() => searchInput.classList.remove('ring-2', 'ring-emerald-500/50'), 2000);
+        }, 100);
+
     } catch (err) {
-        console.error('Network Error:', err);
+        console.error('Supabase Optimization Error:', err);
+        if (searchGuide) {
+            searchGuide.textContent = '⚠️ Gagal terhubung ke database. Pastikan koneksi stabil.';
+            searchGuide.className = 'mt-2 text-xs text-red-500';
+        }
     } finally {
         loader.classList.add('hidden');
     }
