@@ -1034,16 +1034,58 @@ if (registrationForm) {
         const originalClass = btn.className;
 
         btn.disabled = true;
-        btn.innerHTML = `<svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Mengirim Pendaftaran...`;
+        btn.innerHTML = `<svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Memproses Pendaftaran...`;
         regErrorMsg.classList.add('hidden');
 
         try {
+            // Compress and Upload File First
+            const fileInput = document.getElementById('regPaymentProof');
+            let paymentUrl = null;
+
+            if (fileInput && fileInput.files.length > 0) {
+                const file = fileInput.files[0];
+
+                // Compress
+                const options = {
+                    maxSizeMB: 0.5,
+                    maxWidthOrHeight: 1200,
+                    useWebWorker: true
+                };
+
+                const compressedFile = await imageCompression(file, options);
+
+                // Upload to Supabase Storage
+                const safeName = compressedFile.name.replace(/[^a-zA-Z0-9.\-]/g, '_');
+                const fileName = `${Date.now()}_${safeName}`;
+
+                const { data: uploadData, error: uploadError } = await window.supabaseClient
+                    .storage
+                    .from('payment_proofs')
+                    .upload(`proofs/${fileName}`, compressedFile);
+
+                if (uploadError) {
+                    throw new Error('Gagal mengunggah bukti pembayaran: ' + uploadError.message);
+                }
+
+                // Get public URL
+                const { data: publicUrlData } = window.supabaseClient
+                    .storage
+                    .from('payment_proofs')
+                    .getPublicUrl(`proofs/${fileName}`);
+
+                paymentUrl = publicUrlData.publicUrl;
+            } else {
+                throw new Error('Bukti pembayaran wajib dilampirkan.');
+            }
+
             const formData = {
                 training_id: currentRegistrationTrainingId,
                 nama: document.getElementById('regNama').value,
                 email: document.getElementById('regEmail').value,
                 lembaga: document.getElementById('regLembaga').value,
-                phone: document.getElementById('regPhone').value
+                phone: document.getElementById('regPhone').value,
+                payment_url: paymentUrl,
+                payment_status: 'pending'
             };
 
             const { data, error } = await window.supabaseClient
@@ -1053,6 +1095,35 @@ if (registrationForm) {
             if (error) {
                 console.error("Supabase Error:", error);
                 throw error;
+            }
+
+            // Trigger Confirmation Email via GAS
+            try {
+                let gasUrl = currentTrainingData ? currentTrainingData.gas_url : null;
+
+                // If currentTrainingData is null (e.g. registered from schedule page directly)
+                // fetch the gas_url from Supabase
+                if (!gasUrl && currentRegistrationTrainingId) {
+                    const { data: trainData } = await window.supabaseClient
+                        .from('trainings')
+                        .select('gas_url')
+                        .eq('id', currentRegistrationTrainingId)
+                        .single();
+                    if (trainData) gasUrl = trainData.gas_url;
+                }
+
+                if (gasUrl) {
+                    fetch(gasUrl, {
+                        method: 'POST',
+                        mode: 'no-cors',
+                        body: JSON.stringify({
+                            action: 'sendRegistrationConfirmation',
+                            registration_data: formData
+                        })
+                    }).catch(err => console.error("Email trigger error:", err));
+                }
+            } catch (emailErr) {
+                console.error("Failed to trigger confirmation email:", emailErr);
             }
 
             // Sukses
