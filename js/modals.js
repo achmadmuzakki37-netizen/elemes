@@ -927,7 +927,8 @@ async function initParticipantsUI(trainingId) {
         const { data: participants, error } = await window.supabaseClient
             .from('registrations')
             .select('nama, lembaga')
-            .eq('training_id', trainingId);
+            .eq('training_id', trainingId)
+            .eq('payment_status', 'verified');
 
         if (error) {
             console.error('Supabase Error:', error);
