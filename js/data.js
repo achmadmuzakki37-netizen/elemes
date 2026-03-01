@@ -158,21 +158,21 @@ const advantagesData = [
 // Testimonial Data
 const testimonialData = [
     {
-        name: "Budi Santoso",
-        role: "Guru SDN 01 Lumajang",
+        name: "Sochif Prasetiya,S.Pd.,M.Si",
+        role: "Guru SMP Negeri 02 Padang",
         quote: "Pelatihan di GESIT sangat membantu saya memahami implementasi Kurikulum Merdeka dengan cara yang sangat praktis dan menyenangkan.",
-        image: "https://i.pravatar.cc/150?u=budi"
+        image: "img/sochif.jpeg"
     },
     {
-        name: "Siti Aminah",
-        role: "Kepala Sekolah TK Pertiwi",
+        name: "Raswidagdo,S.Pd., M.Pd.",
+        role: "Kepala Sekolah SD Negeri Rojopolo 04",
         quote: "Materi Montessori yang diberikan sangat mendalam. Kini guru-guru kami lebih percaya diri dalam mengelola kelas berbasis aktivitas.",
-        image: "https://i.pravatar.cc/150?u=siti"
+        image: "img/raswidagdo.jpeg"
     },
     {
-        name: "Rifannisa",
-        role: "Guru SMK Teknologi",
+        name: "Aries Setyorini, S.Pd",
+        role: "Pengawas Cabang Dinas Jember",
         quote: "Sangat jarang menemukan platform yang fokus pada pengembangan karakter digital seperti ini. Sangat relevan dengan tantangan hari ini.",
-        image: "https://i.pravatar.cc/150?u=hendra"
+        image: "img/aries.jpeg"
     }
 ];
