@@ -579,7 +579,8 @@ async function initNativeGasUI(gasUrl) {
                     created_at
                 )
             `)
-            .eq('training_id', _currentTrainingId);
+            .eq('training_id', _currentTrainingId)
+            .eq('payment_status', 'verified');
 
         if (error) throw error;
 
